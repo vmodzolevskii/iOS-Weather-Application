@@ -16,8 +16,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
       
+        let weatherVC = WeatherViewController()
+        let forecastVC = ForecastViewController()
+        let controllers = [weatherVC, forecastVC]
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = controllers
+        tabBarController.selectedViewController = weatherVC
+        
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = WeatherViewController() 
+        window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         self.window = window
     }

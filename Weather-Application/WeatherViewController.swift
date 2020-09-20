@@ -16,7 +16,7 @@ class WeatherViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        if !ConnectivityVerification.isConnectedToInternet {
+        if ConnectivityVerification.isConnectedToInternet {
 
         } else {
             let alertManager = AlertManager()

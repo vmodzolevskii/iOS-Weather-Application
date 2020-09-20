@@ -9,6 +9,7 @@ target 'Weather-Application' do
 
 pod 'Alamofire'
 pod ‘SwiftyJSON’
+pod 'SnapKit'
 
 end
 
