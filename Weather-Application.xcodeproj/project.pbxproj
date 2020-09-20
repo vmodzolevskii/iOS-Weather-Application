@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,8 @@
 		6640B9FF251421BF002384B7 /* Weather_Application.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6640B9FD251421BF002384B7 /* Weather_Application.xcdatamodeld */; };
 		6640BA01251421C4002384B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6640BA00251421C4002384B7 /* Assets.xcassets */; };
 		6640BA04251421C4002384B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6640BA02251421C4002384B7 /* LaunchScreen.storyboard */; };
+		6682F4CC251807730074573F /* ConnectivityVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4CB251807730074573F /* ConnectivityVerification.swift */; };
+		6682F4CE251807BC0074573F /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4CD251807BC0074573F /* WeatherViewController.swift */; };
 		7577E26DDCDC56066915814D /* Pods_Weather_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247EB85AF4877DDCF0961630 /* Pods_Weather_Application.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,8 @@
 		6640BA00251421C4002384B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6640BA03251421C4002384B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6640BA05251421C4002384B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6682F4CB251807730074573F /* ConnectivityVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityVerification.swift; sourceTree = "<group>"; };
+		6682F4CD251807BC0074573F /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,8 @@
 		6640B9F3251421BF002384B7 /* Weather-Application */ = {
 			isa = PBXGroup;
 			children = (
+				6682F4CA251807670074573F /* Connectivity */,
+				6682F4CD251807BC0074573F /* WeatherViewController.swift */,
 				6640B9F4251421BF002384B7 /* AppDelegate.swift */,
 				6640B9F6251421BF002384B7 /* SceneDelegate.swift */,
 				6640B9F8251421BF002384B7 /* ViewController.swift */,
@@ -75,6 +81,14 @@
 				6640B9FD251421BF002384B7 /* Weather_Application.xcdatamodeld */,
 			);
 			path = "Weather-Application";
+			sourceTree = "<group>";
+		};
+		6682F4CA251807670074573F /* Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				6682F4CB251807730074573F /* ConnectivityVerification.swift */,
+			);
+			path = Connectivity;
 			sourceTree = "<group>";
 		};
 		70B65F7B423B0199F6A883A2 /* Frameworks */ = {
@@ -91,7 +105,6 @@
 				533CF901670411579F180FF0 /* Pods-Weather-Application.debug.xcconfig */,
 				53970E81FF7F26D7C2A5CBAF /* Pods-Weather-Application.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -211,9 +224,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6640B9F9251421BF002384B7 /* ViewController.swift in Sources */,
+				6682F4CE251807BC0074573F /* WeatherViewController.swift in Sources */,
 				6640B9F5251421BF002384B7 /* AppDelegate.swift in Sources */,
 				6640B9FF251421BF002384B7 /* Weather_Application.xcdatamodeld in Sources */,
 				6640B9F7251421BF002384B7 /* SceneDelegate.swift in Sources */,
+				6682F4CC251807730074573F /* ConnectivityVerification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
