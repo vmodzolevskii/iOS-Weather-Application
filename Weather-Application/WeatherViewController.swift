@@ -12,11 +12,17 @@ class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if ConnectivityVerification.isConnectedToInternet {
-            
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        if !ConnectivityVerification.isConnectedToInternet {
+
         } else {
-            
+            let alertManager = AlertManager()
+            self.present(alertManager.absenceConnectionAlert(), animated: true)
         }
     }
+    
 }
+        
