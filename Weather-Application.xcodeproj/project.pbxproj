@@ -18,6 +18,7 @@
 		6682F4D12518091E0074573F /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4D02518091E0074573F /* AlertManager.swift */; };
 		6682F4D3251814D90074573F /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4D2251814D90074573F /* ForecastViewController.swift */; };
 		6682F4D6251818B20074573F /* DailyWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4D5251818B20074573F /* DailyWeatherView.swift */; };
+		6682F4D92518AC110074573F /* UIImageExtensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4D82518AC110074573F /* UIImageExtensions .swift */; };
 		7577E26DDCDC56066915814D /* Pods_Weather_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247EB85AF4877DDCF0961630 /* Pods_Weather_Application.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,7 @@
 		6682F4D02518091E0074573F /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		6682F4D2251814D90074573F /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		6682F4D5251818B20074573F /* DailyWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherView.swift; sourceTree = "<group>"; };
+		6682F4D82518AC110074573F /* UIImageExtensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageExtensions .swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 		6640B9F3251421BF002384B7 /* Weather-Application */ = {
 			isa = PBXGroup;
 			children = (
+				6682F4D72518ABF20074573F /* ImageRender */,
 				6682F4D42518188E0074573F /* Views */,
 				6682F4CF251809070074573F /* Alerts */,
 				6682F4CA251807670074573F /* Connectivity */,
@@ -111,6 +114,14 @@
 				6682F4D5251818B20074573F /* DailyWeatherView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		6682F4D72518ABF20074573F /* ImageRender */ = {
+			isa = PBXGroup;
+			children = (
+				6682F4D82518AC110074573F /* UIImageExtensions .swift */,
+			);
+			path = ImageRender;
 			sourceTree = "<group>";
 		};
 		70B65F7B423B0199F6A883A2 /* Frameworks */ = {
@@ -250,6 +261,7 @@
 				6640B9F5251421BF002384B7 /* AppDelegate.swift in Sources */,
 				6640B9FF251421BF002384B7 /* Weather_Application.xcdatamodeld in Sources */,
 				6640B9F7251421BF002384B7 /* SceneDelegate.swift in Sources */,
+				6682F4D92518AC110074573F /* UIImageExtensions .swift in Sources */,
 				6682F4D3251814D90074573F /* ForecastViewController.swift in Sources */,
 				6682F4D12518091E0074573F /* AlertManager.swift in Sources */,
 				6682F4CC251807730074573F /* ConnectivityVerification.swift in Sources */,
