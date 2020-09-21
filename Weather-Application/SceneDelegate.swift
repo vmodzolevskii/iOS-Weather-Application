@@ -20,6 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let forecastVC = ForecastViewController()
         let controllers = [weatherVC, forecastVC]
         
+        setBarImages(weatherVC: weatherVC, forecastVC: forecastVC)
+        
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = controllers
         tabBarController.selectedViewController = weatherVC
@@ -28,6 +30,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         self.window = window
+    }
+    
+    func setBarImages(weatherVC: UIViewController, forecastVC: UIViewController) {
+        let weatherItem = UITabBarItem()
+        weatherItem.title = "Today"
+        
+        let weatherImage = UIImage(named: "Placeholder")
+        let targetSize = CGSize(width: 30, height: 30)
+        let scaledImage = weatherImage!.scalePreservingAspectRatio(targetSize: targetSize)
+        weatherItem.image = scaledImage
+        weatherVC.tabBarItem = weatherItem
+        
+        let forecastItem = UITabBarItem()
+        forecastItem.title = "Forecast"
+        let forecastImage = UIImage(named: "Placeholder")
+        let forecastScaledImage = forecastImage!.scalePreservingAspectRatio(targetSize: targetSize)
+        forecastItem.image = forecastScaledImage
+        forecastVC.tabBarItem = forecastItem
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
