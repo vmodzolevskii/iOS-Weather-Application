@@ -12,6 +12,7 @@ import SnapKit
 class DailyWeatherView: UIView {
     let size = UIScreen.main.bounds
     var screenHeight: CGFloat = 0.0
+    var screenWidth: CGFloat = 0.0
     
     let titleView: UIView = {
         let view = UIView()
@@ -42,10 +43,18 @@ class DailyWeatherView: UIView {
     let shareView = UIView()
     let shareButton = UIButton()
     
+    let viewSeparator: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 2.0
+        view.layer.backgroundColor = UIColor.gray.cgColor
+        return view
+    }()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         screenHeight = size.height
+        screenWidth = size.width
         self.backgroundColor = .white
         setupViews()
     }
@@ -79,6 +88,15 @@ class DailyWeatherView: UIView {
             make.height.equalTo(screenHeight / 4)
         }
         
+        // separator
+        self.addSubview(viewSeparator)
+        viewSeparator.snp.makeConstraints { make in
+            make.width.equalTo(screenWidth / 3)
+            make.height.equalTo(1)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(mainInfoView.snp.bottom).offset(4)
+        }
+        
         
         setupDetailsInfoView()
         self.addSubview(detailsInfoView)
@@ -89,12 +107,25 @@ class DailyWeatherView: UIView {
             make.height.equalTo(screenHeight / 4)
         }
         
+        // separator
+        let oneMoreSeparator = UIView()
+        oneMoreSeparator.layer.borderWidth = 2.0
+        oneMoreSeparator.layer.backgroundColor = UIColor.gray.cgColor
+        
+        self.addSubview(oneMoreSeparator)
+        oneMoreSeparator.snp.makeConstraints { make in
+            make.width.equalTo(screenWidth / 3)
+            make.height.equalTo(1)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(detailsInfoView.snp.bottom).offset(4)
+        }
+        
         
         shareView.addSubview(shareButton)
         self.addSubview(shareView)
         shareView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(detailsInfoView.snp.bottom)
+            make.top.equalTo(oneMoreSeparator.snp.bottom).offset(5)
             make.height.equalTo(screenHeight / 4)
         }
         //shareButton.setTitle("Share", for: .disabled)
