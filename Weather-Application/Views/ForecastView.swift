@@ -16,6 +16,7 @@ class ForecastView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
