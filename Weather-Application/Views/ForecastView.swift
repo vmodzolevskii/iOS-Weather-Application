@@ -48,5 +48,15 @@ class ForecastView: UIView {
         cityTitle.snp.makeConstraints { make in
             make.centerX.equalTo(titleView)
         }
+        
+        
+        let line = MulticoloredView()
+        line.setNeedsDisplay()
+        self.addSubview(line)
+        line.snp.makeConstraints { make in
+            make.height.equalTo(2)
+            make.width.equalTo(screenWidth)
+            make.top.equalTo(titleView.snp.bottom)
+        }
     }
 }
