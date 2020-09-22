@@ -19,6 +19,7 @@
 		6682F4D3251814D90074573F /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4D2251814D90074573F /* ForecastViewController.swift */; };
 		6682F4D6251818B20074573F /* DailyWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4D5251818B20074573F /* DailyWeatherView.swift */; };
 		6682F4D92518AC110074573F /* UIImageExtensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4D82518AC110074573F /* UIImageExtensions .swift */; };
+		6682F4DB251974AE0074573F /* ForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4DA251974AE0074573F /* ForecastView.swift */; };
 		7577E26DDCDC56066915814D /* Pods_Weather_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247EB85AF4877DDCF0961630 /* Pods_Weather_Application.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		6682F4D2251814D90074573F /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		6682F4D5251818B20074573F /* DailyWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherView.swift; sourceTree = "<group>"; };
 		6682F4D82518AC110074573F /* UIImageExtensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageExtensions .swift"; sourceTree = "<group>"; };
+		6682F4DA251974AE0074573F /* ForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				6682F4D5251818B20074573F /* DailyWeatherView.swift */,
+				6682F4DA251974AE0074573F /* ForecastView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			files = (
 				6640B9F9251421BF002384B7 /* ViewController.swift in Sources */,
 				6682F4D6251818B20074573F /* DailyWeatherView.swift in Sources */,
+				6682F4DB251974AE0074573F /* ForecastView.swift in Sources */,
 				6682F4CE251807BC0074573F /* WeatherViewController.swift in Sources */,
 				6640B9F5251421BF002384B7 /* AppDelegate.swift in Sources */,
 				6640B9FF251421BF002384B7 /* Weather_Application.xcdatamodeld in Sources */,
