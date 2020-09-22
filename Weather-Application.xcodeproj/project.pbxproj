@@ -20,6 +20,7 @@
 		6682F4D6251818B20074573F /* DailyWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4D5251818B20074573F /* DailyWeatherView.swift */; };
 		6682F4D92518AC110074573F /* UIImageExtensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4D82518AC110074573F /* UIImageExtensions .swift */; };
 		6682F4DB251974AE0074573F /* ForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4DA251974AE0074573F /* ForecastView.swift */; };
+		6682F4DD25197C220074573F /* MulticoloredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4DC25197C220074573F /* MulticoloredView.swift */; };
 		7577E26DDCDC56066915814D /* Pods_Weather_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247EB85AF4877DDCF0961630 /* Pods_Weather_Application.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		6682F4D5251818B20074573F /* DailyWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherView.swift; sourceTree = "<group>"; };
 		6682F4D82518AC110074573F /* UIImageExtensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageExtensions .swift"; sourceTree = "<group>"; };
 		6682F4DA251974AE0074573F /* ForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastView.swift; sourceTree = "<group>"; };
+		6682F4DC25197C220074573F /* MulticoloredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticoloredView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				6640BA02251421C4002384B7 /* LaunchScreen.storyboard */,
 				6640BA05251421C4002384B7 /* Info.plist */,
 				6640B9FD251421BF002384B7 /* Weather_Application.xcdatamodeld */,
+				6682F4DC25197C220074573F /* MulticoloredView.swift */,
 			);
 			path = "Weather-Application";
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				6682F4D3251814D90074573F /* ForecastViewController.swift in Sources */,
 				6682F4D12518091E0074573F /* AlertManager.swift in Sources */,
 				6682F4CC251807730074573F /* ConnectivityVerification.swift in Sources */,
+				6682F4DD25197C220074573F /* MulticoloredView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
