@@ -10,27 +10,26 @@ import UIKit
 import MapKit
 import CoreLocation
 
-public protocol URLSessionResultDelegate: class {
+protocol DataRetrievedDelegate: class {
     func updateUI()
 }
 
 
-class WeatherViewController: UIViewController, CLLocationManagerDelegate, URLSessionResultDelegate {
+class WeatherViewController: UIViewController, CLLocationManagerDelegate, DataRetrievedDelegate {
     func updateUI() {
-        let weather = weatherLoader.weatherDataModel
-        mainView?.locationTitle.text = weather?.city
+        mainView?.locationTitle.text = weatherPresenter.city
     }
     
     var mainView: DailyWeatherView?
     let weatherPresenter: WeatherPresenter
     
     let locationManager = CLLocationManager()
-    let weatherLoader = WeatherLoader()
     
     init(presenter: WeatherPresenter) {
+        
         self.weatherPresenter = presenter
         super.init(nibName: nil, bundle: nil)
-        
+        weatherPresenter.dataRetrievedDelegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -39,8 +38,6 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, URLSes
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        weatherLoader.delegate = self
-        weatherLoader.completeRequest()
         
 //        locationManager.requestAlwaysAuthorization()
 //        locationManager.requestWhenInUseAuthorization()
@@ -69,12 +66,8 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, URLSes
         }
         // verification on
         //mainView.shareWeatherAction = self.shareWeatherAsText()
-        let weather = weatherLoader.weatherDataModel
-        if weather == nil {
-            mainView!.locationTitle.text = "Хер знает где"
-        } else {
-            mainView!.locationTitle.text = weather?.city
-        }
+        
+        
         
     }
     

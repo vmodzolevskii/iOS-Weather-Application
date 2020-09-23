@@ -15,6 +15,8 @@ class WeatherLoader {
     var view: DailyWeatherView?
     var delegate: URLSessionResultDelegate? = nil
     
+    func getDataModel() -> WeatherDataModel? { return weatherDataModel }
+    
     func completeRequest() {
         let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=Pinsk,by?&units=metric&APPID=8b8358002d4bb6c08c08f037476cf8fd")!
         
@@ -42,7 +44,7 @@ class WeatherLoader {
                                         
                     self.weatherDataModel = WeatherDataModel(city: name, country: county, temperature: Int(temperature), humidity: humidity, clouds: allClouds, pressure: pressure, windSpeed: Int(speed), windDirection: deg)
                     DispatchQueue.main.async {
-                        self.delegate?.updateUI()
+                        self.delegate?.dataRetrieved()
                         print(self.weatherDataModel?.city)
 //                        self.view!.locationTitle.text = self.weatherDataModel?.city
                     }
