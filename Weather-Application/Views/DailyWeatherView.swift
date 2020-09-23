@@ -25,8 +25,8 @@ class DailyWeatherView: UIView {
     // multicolored separator
     let multicoloredLine = MulticoloredView()
     
-    // image of current weather state
-    var currentState: UIImage?
+    // imageview of current weather state
+    var currentStateImageView: UIImageView?
     
     // main weather info
     let locationTitle = UILabel()
@@ -168,10 +168,10 @@ class DailyWeatherView: UIView {
     
     func setupMainInfoView() {
         let currentState = UIImage(named: "Placeholder")
-        let imageView = UIImageView(image: currentState)
-        mainInfoView.addSubview(imageView)
+        currentStateImageView = UIImageView(image: currentState)
+        mainInfoView.addSubview(currentStateImageView!)
         
-        imageView.snp.makeConstraints { make in
+        currentStateImageView!.snp.makeConstraints { make in
             make.height.width.equalTo(screenWidth / 3)
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
@@ -183,8 +183,8 @@ class DailyWeatherView: UIView {
         mainInfoView.addSubview(temperatureTitle)
         
         locationTitle.snp.makeConstraints { make in
-            make.centerX.equalTo(imageView)
-            make.top.equalTo(imageView.snp.bottom).offset(10)
+            make.centerX.equalTo(currentStateImageView!)
+            make.top.equalTo(currentStateImageView!.snp.bottom).offset(10)
         }
         
         temperatureTitle.snp.makeConstraints { make in
@@ -288,6 +288,16 @@ class DailyWeatherView: UIView {
         var state = parameters[DataModel.state.rawValue]
         if Language.languages[state as! String] != nil {
             state = Language.languages[state as! String] }
+        
+        var currentState: UIImage?
+        switch (state as! String) {
+        case "Clear": currentState = UIImage(named: "Clear")
+        case "Clouds": currentState = UIImage(named: "Clouds")
+        case "Rain": currentState = UIImage(named: "Rain")
+        default: break
+        }
+        
+        if currentState != nil { currentStateImageView?.image = currentState }
         
         locationTitle.text = locationText
         let temperatureText =  NSString(format: (parameters[DataModel.temp.rawValue] as! String) + "%@" as NSString, "\u{00B0}") as String
