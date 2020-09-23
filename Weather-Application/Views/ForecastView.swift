@@ -9,13 +9,21 @@
 import UIKit
 import SnapKit
 
-class ForecastView: UIView {
+class ForecastView: UIView, UITableViewDataSource {
+    var forecastRecordsTableView = UITableView()
+    
+    var forecastRecords = [1]
+    
+    let multicoloredLine = MulticoloredView()
     let cityTitle = UILabel()
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        forecastRecordsTableView.translatesAutoresizingMaskIntoConstraints = false
+        forecastRecordsTableView.dataSource = self
+        forecastRecordsTableView.register(ForecastRecordTableViewCell.self, forCellReuseIdentifier: "contactCell")
         setupViews()
     }
     
@@ -29,6 +37,13 @@ class ForecastView: UIView {
         screenWidth = size.width
         
         setupTitle()
+        
+        self.addSubview(forecastRecordsTableView)
+        forecastRecordsTableView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(multicoloredLine.snp.bottom)
+            make.bottom.equalToSuperview()
+        }
     }
     
     func setupTitle() {
@@ -48,14 +63,25 @@ class ForecastView: UIView {
             make.centerX.equalTo(titleView)
         }
         
-        
-        let line = MulticoloredView()
-        line.setNeedsDisplay()
-        self.addSubview(line)
-        line.snp.makeConstraints { make in
+        multicoloredLine.setNeedsDisplay()
+        self.addSubview(multicoloredLine)
+        multicoloredLine.snp.makeConstraints { make in
             make.height.equalTo(2)
             make.width.equalTo(screenWidth)
             make.top.equalTo(titleView.snp.bottom)
         }
     }
+    
+    // MARK: UITableViewDelegate
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return forecastRecords.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ForecastRecordTableViewCell
+        cell.textLabel?.text = String(forecastRecords[0])
+        return cell
+    }
+    
 }
