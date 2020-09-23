@@ -94,8 +94,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "setupViews()"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "setupMainInfoView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "setupViews()"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "setupDetailsInfoView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "setupViews()"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "setupViews()"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "setupViews()"
             landmarkType = "7">
             <Locations>
@@ -238,8 +238,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "setupViews()"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "setupDetailsInfoView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "Weather-Application/Views/DailyWeatherView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "setupDetailsInfoView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -288,22 +288,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "34"
             endingLineNumber = "34"
-            landmarkName = "setupTitle()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7D293CF1-6664-43CE-9DE0-A539B264130A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Weather-Application/Views/ForecastView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
             landmarkName = "setupTitle()"
             landmarkType = "7">
          </BreakpointContent>

@@ -9,19 +9,37 @@
 import UIKit
 import SnapKit
 
-class ForecastViewController: UIViewController {
-    var mainView: ForecastView {
-        return self.view as! ForecastView
+protocol ForecastDataRetrevedDelegate: class {
+    func updateForecastUI()
+}
+
+class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
+    var forecastView: ForecastView?
+    var weatherPresenter: WeatherPresenter
+    
+    init(presenter: WeatherPresenter) {
+        self.weatherPresenter = presenter
+        super.init(nibName: nil, bundle: nil)
+        weatherPresenter.forecastDataRetrievedDelegate = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    func updateForecastUI() {
+        forecastView?.cityTitle.text = weatherPresenter.city
+    }
+    
     override func loadView() {
         self.view = UIView(frame: UIScreen.main.bounds)
         self.view.backgroundColor = .white
         let forecastView = ForecastView(frame: UIScreen.main.bounds)
+        self.forecastView = forecastView
         self.view.addSubview(forecastView)
         
         forecastView.snp.makeConstraints { make in

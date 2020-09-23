@@ -16,7 +16,8 @@ class WeatherPresenter: URLSessionResultDelegate {
     private var weatherDataModel: WeatherDataModel?
     let weatherLoader = WeatherLoader()
     
-    var dataRetrievedDelegate: DataRetrievedDelegate? = nil
+    var weatherDataRetrievedDelegate: WeatherDataRetrievedDelegate? = nil
+    var forecastDataRetrievedDelegate: ForecastDataRetrevedDelegate? = nil
     
     init() {
         weatherLoader.delegate = self
@@ -59,8 +60,7 @@ class WeatherPresenter: URLSessionResultDelegate {
     
     // MARK: URLSessionResultDelegate
     func dataRetrieved() {
-        print("data retrieved")
         weatherDataModel = weatherLoader.getDataModel()
-        dataRetrievedDelegate?.updateUI()
+        weatherDataRetrievedDelegate?.updateWeather()
     }
 }

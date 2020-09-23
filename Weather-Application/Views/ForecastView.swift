@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 class ForecastView: UIView {
-    let cityName = "Cityname"
+    let cityTitle = UILabel()
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
     
@@ -32,9 +32,8 @@ class ForecastView: UIView {
     }
     
     func setupTitle() {
-        let cityTitle = UILabel()
         cityTitle.font = UIFont.systemFont(ofSize: 22)
-        cityTitle.text = cityName
+        cityTitle.text = "City"
         
         let titleView = UIView()
         titleView.addSubview(cityTitle)

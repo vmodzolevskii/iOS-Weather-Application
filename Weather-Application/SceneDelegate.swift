@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       
         let presenter = WeatherPresenter()
         let weatherVC = WeatherViewController(presenter: presenter)
-        let forecastVC = ForecastViewController()
+        let forecastVC = ForecastViewController(presenter: presenter)
         let controllers = [weatherVC, forecastVC]
         
         setBarImages(weatherVC: weatherVC, forecastVC: forecastVC)
