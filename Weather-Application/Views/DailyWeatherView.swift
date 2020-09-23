@@ -12,25 +12,30 @@ import SnapKit
 class DailyWeatherView: UIView {
     public var shareWeatherAction: (() -> Void)?
     
+    // to determine sizes of views
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
     
+    // info views
     let titleView = UIView()
     let mainInfoView = UIView()
+    let detailsInfoView = UIView()
+    // button view
+    let shareView = UIView()
     
+    // main weather info
     let locationTitle = UILabel()
     let temperatureTitle = UILabel()
     
-    let detailsInfoView = UIView()
-    
     // details of the weather
     var characteristicLabels = [UILabel]()
-    
-    let shareView = UIView()
+
     let shareButton = UIButton()
     
+    // units like mm, pHa, etc
     var valueUnits = [String]()
     
+    // gray separator
     let viewSeparator: UIView = {
         let view = UIView()
         view.layer.borderWidth = 2.0
@@ -181,7 +186,6 @@ class DailyWeatherView: UIView {
     func setupDetailsInfoView() {
         pushUnits()
         
-        var characteristicLabels = [UILabel]()
         var characteristicViews = [UIImageView]()
         
         for i in 0..<5 {
@@ -245,8 +249,10 @@ class DailyWeatherView: UIView {
         temperatureTitle.text = parameters[DataModel.temp.rawValue] as! String
         
         //details info updating
-        let array = parameters[DataModel.details.rawValue]
-        
+        let details = parameters[DataModel.details.rawValue] as! [String]
+        for i in 0..<characteristicLabels.count {
+            characteristicLabels[i].text = (details[i] as! String) + (valueUnits[i])
+        }
     }
     
 }
