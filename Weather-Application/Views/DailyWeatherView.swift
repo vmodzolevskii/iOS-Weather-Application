@@ -25,6 +25,9 @@ class DailyWeatherView: UIView {
     // multicolored separator
     let multicoloredLine = MulticoloredView()
     
+    // image of current weather state
+    var currentState: UIImage?
+    
     // main weather info
     let locationTitle = UILabel()
     let temperatureTitle = UILabel()
@@ -164,8 +167,8 @@ class DailyWeatherView: UIView {
     }
     
     func setupMainInfoView() {
-        let image = UIImage(named: "Placeholder")
-        let imageView = UIImageView(image: image)
+        let currentState = UIImage(named: "Placeholder")
+        let imageView = UIImageView(image: currentState)
         mainInfoView.addSubview(imageView)
         
         imageView.snp.makeConstraints { make in
@@ -275,10 +278,20 @@ class DailyWeatherView: UIView {
     
     func updateView(parameters: [String: Any]) {
         // main info updating
-        let locationText = (parameters[DataModel.city.rawValue] as! String) + ", " + (parameters[DataModel.country.rawValue] as! String)
+        // try to define full name of country using language dictionary
+        var country = (parameters[DataModel.country.rawValue] as! String).lowercased()
+        if Language.languages[country] != nil {
+            country = Language.languages[country]!
+        }
+        let locationText = (parameters[DataModel.city.rawValue] as! String) + ", " + country
+        
+        var state = parameters[DataModel.state.rawValue]
+        if Language.languages[state as! String] != nil {
+            state = Language.languages[state as! String] }
         
         locationTitle.text = locationText
-        temperatureTitle.text = parameters[DataModel.temp.rawValue] as! String
+        let temperatureText =  NSString(format: (parameters[DataModel.temp.rawValue] as! String) + "%@" as NSString, "\u{00B0}") as String
+        temperatureTitle.text = temperatureText + " | " + (state as! String)
         
         //details info updating
         let details = parameters[DataModel.details.rawValue] as! [String]

@@ -46,6 +46,10 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
         String(weatherDataModel!.temperature) : ""
     }
     
+    var state: String { return (weatherDataModel != nil) ?
+        String(weatherDataModel!.state) : ""
+    }
+    
     var humidity: String {
         return (weatherDataModel != nil) ? String(weatherDataModel!.humidity) : ""
     }
