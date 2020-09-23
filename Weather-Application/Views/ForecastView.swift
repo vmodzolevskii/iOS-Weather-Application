@@ -19,17 +19,34 @@ class ForecastView: UIView, UITableViewDataSource {
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
     
+    let weekdays = [2: "Monday", 3: "Tuesday", 4: "Wednesday", 5: "Thursday", 6: "Friday", 7: "Saturday", 1: "Sunday"]
+    var headers = [String]()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         forecastRecordsTableView.rowHeight = 100
         forecastRecordsTableView.translatesAutoresizingMaskIntoConstraints = false
         forecastRecordsTableView.dataSource = self
         forecastRecordsTableView.register(ForecastRecordTableViewCell.self, forCellReuseIdentifier: "contactCell")
+        defineHeaders()
         setupViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func defineHeaders() {
+        let myDate = Date()
+        var weekday = Calendar.current.component(.weekday, from: myDate)
+        
+        for _ in 0..<4 {
+            headers.append(weekdays[weekday]!)
+            weekday += 1
+            if weekday == 8 {
+                weekday = 1
+            }
+        }
     }
     
     func setupViews() {
@@ -73,11 +90,19 @@ class ForecastView: UIView, UITableViewDataSource {
         }
     }
     
-    // MARK: UITableViewDelegate
+    // MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return forecastRecords.count
+        return 5
     }
     
+    
+    func numberOfSections(in tableView: UITableView) -> Int  {
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return headers[section]
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ForecastRecordTableViewCell

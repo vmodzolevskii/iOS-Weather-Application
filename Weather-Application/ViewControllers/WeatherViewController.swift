@@ -26,6 +26,10 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         self.weatherPresenter = presenter
         super.init(nibName: nil, bundle: nil)
         weatherPresenter.weatherDataRetrievedDelegate = self
+        
+        let myDate = Date()
+        var weekday = Calendar.current.component(.weekday, from: myDate)
+        print("WEEKDAY: \(weekday)")
     }
     
     required init?(coder: NSCoder) {
@@ -87,12 +91,11 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         //mainView.shareWeatherAction = self.shareWeatherAsText()
         
         
-        
     }
     
     private func shareWeatherAsText(){
-        let vc = UIActivityViewController(activityItems: [weatherAsText], applicationActivities: [])
-        self.present(vc, animated: true)
+        let sharingViewController = UIActivityViewController(activityItems: [weatherAsText], applicationActivities: [])
+        self.present(sharingViewController, animated: true)
     }
     
     
