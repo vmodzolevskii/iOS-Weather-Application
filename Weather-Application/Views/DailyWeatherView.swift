@@ -294,6 +294,7 @@ class DailyWeatherView: UIView {
         case "Clear": currentState = UIImage(named: "Clear")
         case "Clouds": currentState = UIImage(named: "Clouds")
         case "Rain": currentState = UIImage(named: "Rain")
+        case "Fog": currentState = UIImage(named: "Fog")
         default: break
         }
         

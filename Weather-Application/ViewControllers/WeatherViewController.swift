@@ -20,6 +20,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     let weatherPresenter: WeatherPresenter
     
     let locationManager = CLLocationManager()
+    var weatherAsText: String?
     
     init(presenter: WeatherPresenter) {
         self.weatherPresenter = presenter
@@ -42,6 +43,14 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         parameters[DataModel.details.rawValue] = params
     
         mainView?.updateView(parameters: parameters)
+        collectText()
+    }
+    
+    func collectText() {
+        var weather = "city - \(weatherPresenter.city), "
+        weather += "temperature - \(weatherPresenter.temperature), "
+        weather += "state - \(weatherPresenter.state)"
+        weatherAsText = weather
     }
     
     
@@ -57,6 +66,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
 //        }
         
         //mainView.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
+        mainView!.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -81,7 +91,8 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     }
     
     private func shareWeatherAsText(){
-        
+        let vc = UIActivityViewController(activityItems: [weatherAsText], applicationActivities: [])
+        self.present(vc, animated: true)
     }
     
     
