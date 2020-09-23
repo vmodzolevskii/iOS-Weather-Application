@@ -10,31 +10,40 @@ import UIKit
 import MapKit
 import CoreLocation
 
-protocol DataRetrievedDelegate: class {
-    func updateUI()
+protocol WeatherDataRetrievedDelegate: class {
+    func updateWeather()
 }
 
 
-class WeatherViewController: UIViewController, CLLocationManagerDelegate, DataRetrievedDelegate {
-    func updateUI() {
-        mainView?.locationTitle.text = weatherPresenter.city
-    }
-    
+class WeatherViewController: UIViewController, CLLocationManagerDelegate, WeatherDataRetrievedDelegate {
     var mainView: DailyWeatherView?
     let weatherPresenter: WeatherPresenter
     
     let locationManager = CLLocationManager()
     
     init(presenter: WeatherPresenter) {
-        
         self.weatherPresenter = presenter
         super.init(nibName: nil, bundle: nil)
-        weatherPresenter.dataRetrievedDelegate = self
+        weatherPresenter.weatherDataRetrievedDelegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func updateWeather() {
+        var parameters = [String: Any]()
+        parameters[DataModel.city.rawValue] = weatherPresenter.city
+        parameters[DataModel.country.rawValue] = weatherPresenter.country
+        parameters[DataModel.temp.rawValue] = weatherPresenter.temperature
+        // TODO: state
+        
+        let params = [weatherPresenter.humidity, weatherPresenter.clouds, weatherPresenter.pressure, weatherPresenter.speed, weatherPresenter.direction]
+        parameters[DataModel.details.rawValue] = params
+    
+        mainView?.updateView(parameters: parameters)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

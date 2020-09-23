@@ -12,19 +12,11 @@ import SnapKit
 class DailyWeatherView: UIView {
     public var shareWeatherAction: (() -> Void)?
     
-    let size = UIScreen.main.bounds
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
     
-    let titleView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
-    let mainInfoView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    let titleView = UIView()
+    let mainInfoView = UIView()
     
     let locationTitle = UILabel()
     let temperatureTitle = UILabel()
@@ -49,6 +41,7 @@ class DailyWeatherView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        let size = UIScreen.main.bounds
         screenHeight = size.height
         screenWidth = size.width
         self.backgroundColor = .white
@@ -243,6 +236,17 @@ class DailyWeatherView: UIView {
                 make.centerX.equalTo(leftConstraint)
             }
         }
+    }
+    
+    func updateView(parameters: [String: Any]) {
+        // main info updating
+        let locationText = (parameters[DataModel.city.rawValue] as! String) + ", " + (parameters[DataModel.country.rawValue] as! String)
+        locationTitle.text = locationText
+        temperatureTitle.text = parameters[DataModel.temp.rawValue] as! String
+        
+        //details info updating
+        let array = parameters[DataModel.details.rawValue]
+        
     }
     
 }

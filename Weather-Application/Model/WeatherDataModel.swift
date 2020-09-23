@@ -51,3 +51,13 @@ class WeatherDataModel {
         self.windDirection = windDirection
     }
 }
+
+enum DataModel: String {
+    case city
+    case country
+    case temp
+    // TODO: send enum
+    case state
+    
+    case details
+}
