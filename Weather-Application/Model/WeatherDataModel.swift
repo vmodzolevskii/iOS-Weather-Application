@@ -26,18 +26,28 @@ class WeatherForecast {
 
 class WeatherDataModel {
     // main weather info
-    var city = ""
-    var country = ""
-    var temperature = 0
+    var city: String
+    var country: String
+    var temperature: Int
     var weatherState: WeatherState = .sunny
     
     // details weather info
-    var rainChance = 0
-    var rainfall = 0
-    var atmospherePressure = 0
-    var windSpeed = 0
-    var windDirection: WindDirection = .SE
+    var humidity: Int
+    var clouds: Int
+    var atmospherePressure: Int
     
-    // weather forecast for 5 day with 3 hours intervals
-    var forecase = [WeatherForecast]()
+    var windSpeed: Int
+    var windDirection: Int
+    
+    init(city: String, country: String, temperature: Int, humidity: Int,
+         clouds: Int, pressure: Int, windSpeed: Int, windDirection: Int) {
+        self.city = city
+        self.country = country
+        self.temperature = temperature
+        self.humidity = humidity
+        self.clouds = clouds
+        self.atmospherePressure = pressure
+        self.windSpeed = windSpeed
+        self.windDirection = windDirection
+    }
 }

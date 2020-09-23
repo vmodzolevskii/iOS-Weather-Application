@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 
 class DailyWeatherView: UIView {
+    public var shareWeatherAction: (() -> Void)?
+    
     let size = UIScreen.main.bounds
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
@@ -126,11 +128,16 @@ class DailyWeatherView: UIView {
         shareButton.setTitle("Share", for: .normal)
         shareButton.setTitleColor(UIColor.orange, for: .normal)
         shareButton.backgroundColor = UIColor.white
+        shareButton.addTarget(self, action: #selector(onShareButton), for: .touchUpInside)
         
         
         shareButton.snp.makeConstraints { make in
             make.centerX.equalTo(shareView)
         }
+    }
+    
+    @objc func onShareButton() {
+        self.shareWeatherAction?()
     }
     
     func setupMainInfoView() {
@@ -146,9 +153,9 @@ class DailyWeatherView: UIView {
         }
         
         locationTitle.font = UIFont.systemFont(ofSize: 18)
-        locationTitle.text = "Location placeholder"
+        locationTitle.text = "City, Country"
         temperatureTitle.font = UIFont.systemFont(ofSize: 18)
-        temperatureTitle.text = "temp placeholder"
+        temperatureTitle.text = "Degree | State"
         
         mainInfoView.addSubview(locationTitle)
         mainInfoView.addSubview(temperatureTitle)
@@ -186,7 +193,7 @@ class DailyWeatherView: UIView {
         
         for i in 0..<5 {
             let label = UILabel()
-            label.text = "42" + valueUnits[i]
+            label.text = "-" + valueUnits[i]
             characteristicLabels.append(label)
             
             characteristicViews.append(characteristicImageView(with: "Placeholder"))
