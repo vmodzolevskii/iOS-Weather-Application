@@ -8,20 +8,29 @@
 
 import Foundation
 
-public protocol URLSessionResultDelegate: class {
-    func dataRetrieved()
+public protocol WeatherResultDelegate: class {
+    func weatherDataRetrieved()
 }
 
-class WeatherPresenter: URLSessionResultDelegate {
+public protocol ForecastResultDelegate: class {
+    func forecastDataRetrieved()
+}
+
+class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     private var weatherDataModel: WeatherDataModel?
+    var forecast: [[Any]]?
+    
     let weatherLoader = WeatherLoader()
+    
     
     var weatherDataRetrievedDelegate: WeatherDataRetrievedDelegate? = nil
     var forecastDataRetrievedDelegate: ForecastDataRetrevedDelegate? = nil
     
     init() {
-        weatherLoader.delegate = self
+        weatherLoader.weatherDelegate = self
+        weatherLoader.forecastDelegate = self
         weatherLoader.completeRequest()
+        weatherLoader.completeForecastRequest()
     }
     
     // MARK: Getters
@@ -58,9 +67,15 @@ class WeatherPresenter: URLSessionResultDelegate {
     }
     
     
-    // MARK: URLSessionResultDelegate
-    func dataRetrieved() {
+    // MARK: WeatherResultDelegate
+    func weatherDataRetrieved() {
         weatherDataModel = weatherLoader.getDataModel()
         weatherDataRetrievedDelegate?.updateWeather()
+    }
+    
+    // MARK: ForecastResultDelegate
+    func forecastDataRetrieved() {
+        forecast = weatherLoader.getForecastData()
+        forecastDataRetrievedDelegate?.updateForecast()
     }
 }

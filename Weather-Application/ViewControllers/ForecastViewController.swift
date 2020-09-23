@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 protocol ForecastDataRetrevedDelegate: class {
-    func updateForecastUI()
+    func updateForecast()
 }
 
 class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
@@ -31,8 +31,11 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
         super.viewDidLoad()
     }
     
-    func updateForecastUI() {
-        forecastView?.cityTitle.text = weatherPresenter.city
+    func updateForecast() {
+        let array = weatherPresenter.forecast
+        print("IN FORECAST VC")
+        print(array)
+        //forecastView?.cityTitle.text = weatherPresenter.city
     }
     
     override func loadView() {

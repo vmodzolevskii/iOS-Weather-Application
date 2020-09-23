@@ -33,7 +33,7 @@ class DailyWeatherView: UIView {
     let shareButton = UIButton()
     
     // units like mm, pHa, etc
-    var valueUnits = [String]()
+    var valueUnits = ["%", " mm", " hPa", " km/h", ""]
     
     // gray separator
     let viewSeparator: UIView = {
@@ -85,7 +85,7 @@ class DailyWeatherView: UIView {
         locationTitle.textColor = .orange
         locationTitle.font = .systemFont(ofSize: 26)
         temperatureTitle.textColor = .orange
-        temperatureTitle.font = .systemFont(ofSize: 22)
+        temperatureTitle.font = .systemFont(ofSize: 24)
         
         // separator
         self.addSubview(viewSeparator)
@@ -174,13 +174,6 @@ class DailyWeatherView: UIView {
         }
     }
     
-    func pushUnits() {
-        valueUnits.append("%")
-        valueUnits.append(" mm")
-        valueUnits.append(" hPa")
-        valueUnits.append(" km/h")
-        valueUnits.append("")
-    }
     
     func characteristicImageView(with name: String) -> UIImageView {
         let image = UIImage(named: name)
@@ -189,8 +182,6 @@ class DailyWeatherView: UIView {
     }
     
     func setupDetailsInfoView() {
-        pushUnits()
-        
         var characteristicViews = [UIImageView]()
         
         for i in 0..<5 {

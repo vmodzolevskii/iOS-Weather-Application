@@ -12,10 +12,13 @@ import Foundation
 
 class WeatherLoader {
     var weatherDataModel: WeatherDataModel?
-    var view: DailyWeatherView?
-    var delegate: URLSessionResultDelegate? = nil
+    var forecastData = [[Any]]()
+    
+    var weatherDelegate: WeatherResultDelegate? = nil
+    var forecastDelegate: ForecastResultDelegate? = nil
     
     func getDataModel() -> WeatherDataModel? { return weatherDataModel }
+    func getForecastData() -> [[Any]] { return forecastData }
     
     let appID = "8b8358002d4bb6c08c08f037476cf8fd"
     let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=Pinsk,by?&units=metric&APPID="
@@ -48,7 +51,7 @@ class WeatherLoader {
                                         
                     self.weatherDataModel = WeatherDataModel(city: name, country: county, temperature: Int(temperature), humidity: humidity, clouds: allClouds, pressure: pressure, windSpeed: Int(speed), windDirection: deg)
                     DispatchQueue.main.async {
-                        self.delegate?.dataRetrieved()
+                        self.weatherDelegate?.weatherDataRetrieved()
                     }
                 
                 } catch {
@@ -66,27 +69,25 @@ class WeatherLoader {
             if let data = data, error == nil {
                 do {
                     guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] else { return }
-////
-////                    guard let main = json["main"] as? [String: Any],
-////                        let wind = json["wind"] as? [String: Any],
-////                        let clouds = json["clouds"] as? [String: Any],
-////                        let name = json["name"] as? String,
-////                        let sys = json["sys"] as? [String: Any] else { return }
-////
-////                    guard let temperature = main["temp"] as? Double,
-////                        let pressure = main["pressure"] as? Int,
-////                        let humidity = main["humidity"] as? Int else { return }
-////
-////                    guard let speed = wind["speed"] as? Double,
-////                        let deg = wind["deg"] as? Int else { return }
-////
-////                    guard let allClouds = clouds["all"] as? Int else { return }
-////
-////                    guard let county = sys["country"] as? String else { return }
-//
-//                    self.weatherDataModel = WeatherDataModel(city: name, country: county, temperature: Int(temperature), humidity: humidity, clouds: allClouds, pressure: pressure, windSpeed: Int(speed), windDirection: deg)
+                    
+                    for index in 0..<40 {
+                    
+                        guard let list = try json["list"] as! [[String: Any]]? else { return }
+                        
+                        guard let main = try list[index]["main"] as! [String: Any]? else { return }
+                        guard let temp = try main["temp"] as! Double? else { return }
+                        
+                        guard let weather = try list[index]["weather"] as! [[String: Any]]? else { return }
+                        guard let mainState = try weather[0]["main"] as! String? else { return }
+                        
+                        guard let date = try list[index]["dt_txt"] as! String? else { return }
+                        
+                        let array = [temp as Any, mainState as Any, date as Any]
+                        self.forecastData.append(array)
+                    }
+                    
                     DispatchQueue.main.async {
-                        self.delegate?.dataRetrieved()
+                        self.forecastDelegate?.forecastDataRetrieved()
                     }
                 
                 } catch {
