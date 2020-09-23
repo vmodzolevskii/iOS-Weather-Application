@@ -22,6 +22,8 @@ class DailyWeatherView: UIView {
     let detailsInfoView = UIView()
     // button view
     let shareView = UIView()
+    // multicolored separator
+    let multicoloredLine = MulticoloredView()
     
     // main weather info
     let locationTitle = UILabel()
@@ -29,27 +31,21 @@ class DailyWeatherView: UIView {
     
     // details of the weather
     var characteristicLabels = [UILabel]()
+    var characteristicViews = [UIImageView]()
 
     let shareButton = UIButton()
     
     // units like mm, pHa, etc
     var valueUnits = ["%", " mm", " hPa", " km/h", ""]
     
-    // gray separator
-    let viewSeparator: UIView = {
-        let view = UIView()
-        view.layer.borderWidth = 2.0
-        view.layer.backgroundColor = UIColor.gray.cgColor
-        return view
-    }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .white
         let size = UIScreen.main.bounds
         screenHeight = size.height
         screenWidth = size.width
-        self.backgroundColor = .white
+        
         setupViews()
     }
     
@@ -57,90 +53,114 @@ class DailyWeatherView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews() {
-        self.addSubview(titleView)
-        
+    func setTodayLabel() {
         let todayLabel = UILabel()
         todayLabel.font = UIFont.systemFont(ofSize: 22)
         todayLabel.text = "Today"
-        self.addSubview(todayLabel)
+        titleView.addSubview(todayLabel)
         
+        todayLabel.snp.makeConstraints { make in
+            make.center.equalTo(titleView)
+        }
+    }
+    
+    func graySeparator() -> UIView {
+        let view = UIView()
+        view.layer.borderWidth = 2.0
+        view.layer.backgroundColor = UIColor.gray.cgColor
+        return view
+    }
+    
+    func setupViews() {
+        // today label
+        self.addSubview(titleView)
+        setTodayLabel()
+    
         titleView.snp.makeConstraints { make in
             make.height.equalTo(screenHeight / 15)
             make.left.top.right.equalToSuperview()
         }
         
-        todayLabel.snp.makeConstraints { make in
-            make.center.equalTo(titleView)
+        // multicolored separator
+        self.addSubview(multicoloredLine)
+        multicoloredLine.snp.makeConstraints { make in
+            make.height.equalTo(2)
+            make.left.right.equalToSuperview()
+            make.top.equalTo(titleView.snp.bottom)
         }
         
-        setupMainInfoView()
+        // main weather information
         self.addSubview(mainInfoView)
+        setupMainInfoView()
         mainInfoView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(titleView.snp.bottom).offset(screenHeight / 16)
+            make.top.equalTo(multicoloredLine.snp.bottom).offset(screenHeight / 16)
             make.height.equalTo(screenHeight / 4)
         }
         
-        locationTitle.textColor = .orange
-        locationTitle.font = .systemFont(ofSize: 26)
-        temperatureTitle.textColor = .orange
-        temperatureTitle.font = .systemFont(ofSize: 24)
-        
         // separator
-        self.addSubview(viewSeparator)
-        viewSeparator.snp.makeConstraints { make in
+        let firstSeparator = graySeparator()
+        self.addSubview(firstSeparator)
+        firstSeparator.snp.makeConstraints { make in
             make.width.equalTo(screenWidth / 3)
             make.height.equalTo(1)
             make.centerX.equalToSuperview()
-            make.top.equalTo(mainInfoView.snp.bottom).offset(4)
+            make.top.equalTo(temperatureTitle.snp.bottom).offset(10)
         }
         
-        
-        setupDetailsInfoView()
+        // weather details
         self.addSubview(detailsInfoView)
-        
+        setupDetailsInfoView()
         detailsInfoView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(mainInfoView.snp.bottom).offset(40)
-            make.height.equalTo(screenHeight / 4)
+            make.top.equalTo(firstSeparator.snp.bottom).offset(screenHeight / 20)
+            make.height.equalTo(screenHeight / 5)
         }
         
         // separator
-        let oneMoreSeparator = UIView()
-        oneMoreSeparator.layer.borderWidth = 2.0
-        oneMoreSeparator.layer.backgroundColor = UIColor.gray.cgColor
-        
-        self.addSubview(oneMoreSeparator)
-        oneMoreSeparator.snp.makeConstraints { make in
+        let secondSeparator = graySeparator()
+        self.addSubview(secondSeparator)
+        secondSeparator.snp.makeConstraints { make in
             make.width.equalTo(screenWidth / 3)
             make.height.equalTo(1)
             make.centerX.equalToSuperview()
-            make.top.equalTo(detailsInfoView.snp.bottom).offset(4)
+            make.top.equalTo(characteristicLabels[3].snp.bottom).offset(screenHeight / 20)
         }
         
-        
+        // sharing
         shareView.addSubview(shareButton)
         self.addSubview(shareView)
         shareView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(oneMoreSeparator.snp.bottom).offset(5)
+            make.top.equalTo(secondSeparator.snp.bottom).offset(screenHeight / 15)
             make.height.equalTo(screenHeight / 4)
         }
         
+        customizeButton()
+    }
+    
+    @objc func onShareButton() {
+        self.shareWeatherAction?()
+    }
+    
+    func customizeButton() {
         shareButton.setTitle("Share", for: .normal)
         shareButton.setTitleColor(UIColor.orange, for: .normal)
         shareButton.backgroundColor = UIColor.white
         shareButton.addTarget(self, action: #selector(onShareButton), for: .touchUpInside)
-        
         
         shareButton.snp.makeConstraints { make in
             make.centerX.equalTo(shareView)
         }
     }
     
-    @objc func onShareButton() {
-        self.shareWeatherAction?()
+    func customizeLabels() {
+        locationTitle.textColor = .orange
+        locationTitle.font = .systemFont(ofSize: 26)
+        locationTitle.text = "City, Country"
+        temperatureTitle.textColor = .orange
+        temperatureTitle.font = .systemFont(ofSize: 24)
+        temperatureTitle.text = "Degree | State"
     }
     
     func setupMainInfoView() {
@@ -149,23 +169,19 @@ class DailyWeatherView: UIView {
         mainInfoView.addSubview(imageView)
         
         imageView.snp.makeConstraints { make in
-            make.height.equalTo(150)
-            make.width.equalTo(150)
+            make.height.width.equalTo(screenWidth / 3)
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
         }
         
-        locationTitle.font = UIFont.systemFont(ofSize: 18)
-        locationTitle.text = "City, Country"
-        temperatureTitle.font = UIFont.systemFont(ofSize: 18)
-        temperatureTitle.text = "Degree | State"
+        customizeLabels()
         
         mainInfoView.addSubview(locationTitle)
         mainInfoView.addSubview(temperatureTitle)
         
         locationTitle.snp.makeConstraints { make in
-            make.centerX.equalTo(mainInfoView)
-            make.top.equalTo(imageView.snp.bottom)
+            make.centerX.equalTo(imageView)
+            make.top.equalTo(imageView.snp.bottom).offset(10)
         }
         
         temperatureTitle.snp.makeConstraints { make in
@@ -174,67 +190,86 @@ class DailyWeatherView: UIView {
         }
     }
     
-    
     func characteristicImageView(with name: String) -> UIImageView {
         let image = UIImage(named: name)
         let imageView = UIImageView(image: image)
         return imageView
     }
     
-    func setupDetailsInfoView() {
-        var characteristicViews = [UIImageView]()
-        
+    func setupDefaultValues() {
         for i in 0..<5 {
             let label = UILabel()
             label.text = "-" + valueUnits[i]
             characteristicLabels.append(label)
-            
             characteristicViews.append(characteristicImageView(with: "Placeholder"))
             
             detailsInfoView.addSubview(characteristicViews[i])
             detailsInfoView.addSubview(characteristicLabels[i])
         }
+    }
+    
+    func setupDetailsInfoView() {
+        setupDefaultValues()
         
         let iconWidthHeight = screenWidth / 12
         
         // first row of weather's details
-        makeImageViewConstraints(for: characteristicViews[0], width: Int(iconWidthHeight), height: Int(iconWidthHeight), topConstraint: nil, verticalOffset: nil, leftConstraint: detailsInfoView, horizontalOffset: Int(screenWidth) / 5)
+        // views
+        characteristicViews[0].snp.makeConstraints { make in
+            make.width.height.equalTo(iconWidthHeight)
+            make.left.equalTo(screenWidth / 5)
+        }
         
-        makeImageViewConstraints(for: characteristicViews[1], width: Int(iconWidthHeight), height: Int(iconWidthHeight), topConstraint: nil, verticalOffset: nil, leftConstraint: detailsInfoView, horizontalOffset: nil)
+        characteristicViews[1].snp.makeConstraints { make in
+            make.width.height.equalTo(iconWidthHeight)
+            make.left.equalTo(screenWidth / 2 - iconWidthHeight / 2)
+        }
         
-        makeImageViewConstraints(for: characteristicViews[2], width: Int(iconWidthHeight), height: Int(iconWidthHeight), topConstraint: nil, verticalOffset: nil, leftConstraint: detailsInfoView, horizontalOffset: Int(screenWidth) * 4 / 5 - Int(iconWidthHeight))
+        characteristicViews[2].snp.makeConstraints { make in
+            make.width.height.equalTo(iconWidthHeight)
+            make.left.equalTo(screenWidth * 4 / 5 - iconWidthHeight)
+        }
         
-        makeImageViewConstraints(for: characteristicLabels[0], width: nil, height: nil, topConstraint: characteristicViews[0], verticalOffset: 0, leftConstraint: detailsInfoView, horizontalOffset: Int(screenWidth) / 5)
+        // labels
+        characteristicLabels[0].snp.makeConstraints { make in
+            make.centerX.equalTo(screenWidth / 5 + iconWidthHeight / 2)
+            make.top.equalTo(characteristicViews[0].snp.bottom).offset(5)
+        }
         
-        makeImageViewConstraints(for: characteristicLabels[1], width: nil, height: nil, topConstraint: characteristicViews[1], verticalOffset: 0, leftConstraint: detailsInfoView, horizontalOffset: nil)
+        characteristicLabels[1].snp.makeConstraints { make in
+            make.centerX.equalTo(screenWidth / 2)
+            make.top.equalTo(characteristicViews[1].snp.bottom).offset(5)
+        }
         
-        makeImageViewConstraints(for: characteristicLabels[2], width: nil, height: nil, topConstraint: characteristicViews[2], verticalOffset: 0, leftConstraint: detailsInfoView, horizontalOffset: Int(screenWidth) * 4 / 5 - Int(iconWidthHeight))
+        characteristicLabels[2].snp.makeConstraints { make in
+            make.centerX.equalTo(screenWidth * 4 / 5 - iconWidthHeight / 2)
+            make.top.equalTo(characteristicViews[2].snp.bottom).offset(5)
+        }
         
         
         // second row
-        makeImageViewConstraints(for: characteristicViews[3], width: Int(iconWidthHeight), height: Int(iconWidthHeight), topConstraint: characteristicViews[0], verticalOffset: Int(screenHeight) / 20, leftConstraint: detailsInfoView, horizontalOffset: Int(screenWidth) * 1 / 3)
+        // views
+        characteristicViews[3].snp.makeConstraints { make in
+            make.width.height.equalTo(iconWidthHeight)
+            make.left.equalTo(screenWidth / 3 - iconWidthHeight / 2)
+            make.top.equalTo(characteristicLabels[0].snp.bottom).offset(screenHeight / 20)
+        }
         
-        makeImageViewConstraints(for: characteristicViews[4], width: Int(iconWidthHeight), height: Int(iconWidthHeight), topConstraint: characteristicViews[0], verticalOffset: Int(screenHeight) / 20, leftConstraint: detailsInfoView, horizontalOffset: (Int(screenWidth) * 2 / 3 - Int(iconWidthHeight)))
+        characteristicViews[4].snp.makeConstraints { make in
+            make.width.height.equalTo(iconWidthHeight)
+            make.centerX.equalTo(screenWidth * 2 / 3 - iconWidthHeight / 2)
+            make.top.equalTo(characteristicLabels[0].snp.bottom).offset(screenHeight / 20)
+        }
         
-        makeImageViewConstraints(for: characteristicLabels[3], width: nil, height: nil, topConstraint: characteristicViews[3], verticalOffset: 0, leftConstraint: detailsInfoView, horizontalOffset: (Int(screenWidth) * 1 / 3 - Int(iconWidthHeight)))
+        // labels
+        characteristicLabels[3].snp.makeConstraints { make in
+            make.centerX.equalTo(screenWidth / 3)
+            make.top.equalTo(characteristicViews[3].snp.bottom).offset(5)
+        }
         
-        makeImageViewConstraints(for: characteristicLabels[4], width: nil, height: nil, topConstraint: characteristicViews[4], verticalOffset: 0, leftConstraint: detailsInfoView, horizontalOffset: (Int(screenWidth) * 2 / 3 - Int(iconWidthHeight)))
-    }
-    
-    func makeImageViewConstraints(for view: UIView, width: Int?, height: Int?, topConstraint: UIView?, verticalOffset: Int?, leftConstraint: UIView, horizontalOffset: Int?) {
-        view.snp.makeConstraints { make in
-            if let widthValue = width, let heightValue = height {
-                make.height.equalTo(heightValue)
-                make.width.equalTo(widthValue)
-            }
-            if let topView = topConstraint, let vertOffset = verticalOffset {
-                make.top.equalTo(topView.snp.bottom).offset(vertOffset)
-            }
-            if let horOffset = horizontalOffset {
-                make.left.equalTo(leftConstraint).offset(horOffset)
-            } else {
-                make.centerX.equalTo(leftConstraint)
-            }
+        characteristicLabels[4].snp.makeConstraints { make in
+            make.centerX.equalTo(screenWidth * 2 / 3 - iconWidthHeight / 2)
+            make.top.equalTo(characteristicViews[4].snp.bottom).offset(5)
         }
     }
     

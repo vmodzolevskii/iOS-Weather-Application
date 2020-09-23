@@ -12,7 +12,7 @@ import SnapKit
 class ForecastView: UIView, UITableViewDataSource {
     var forecastRecordsTableView = UITableView()
     
-    var forecastRecords = [1, 2, 3, 4 ,5, 6, 7, 8, 1,1,1]
+    var forecastRecords = [1, 2, 3, 4 ,5, 6, 7, 8, 1,1, 1]
     
     let multicoloredLine = MulticoloredView()
     let cityTitle = UILabel()

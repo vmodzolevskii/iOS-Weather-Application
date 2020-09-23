@@ -36,7 +36,6 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         parameters[DataModel.city.rawValue] = weatherPresenter.city
         parameters[DataModel.country.rawValue] = weatherPresenter.country
         parameters[DataModel.temp.rawValue] = weatherPresenter.temperature
-        // TODO: state
         
         let params = [weatherPresenter.humidity, weatherPresenter.clouds, weatherPresenter.pressure, weatherPresenter.speed, weatherPresenter.direction]
         parameters[DataModel.details.rawValue] = params
