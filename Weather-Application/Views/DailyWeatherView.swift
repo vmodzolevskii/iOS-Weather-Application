@@ -82,6 +82,11 @@ class DailyWeatherView: UIView {
             make.height.equalTo(screenHeight / 4)
         }
         
+        locationTitle.textColor = .orange
+        locationTitle.font = .systemFont(ofSize: 26)
+        temperatureTitle.textColor = .orange
+        temperatureTitle.font = .systemFont(ofSize: 22)
+        
         // separator
         self.addSubview(viewSeparator)
         viewSeparator.snp.makeConstraints { make in
@@ -245,6 +250,7 @@ class DailyWeatherView: UIView {
     func updateView(parameters: [String: Any]) {
         // main info updating
         let locationText = (parameters[DataModel.city.rawValue] as! String) + ", " + (parameters[DataModel.country.rawValue] as! String)
+        
         locationTitle.text = locationText
         temperatureTitle.text = parameters[DataModel.temp.rawValue] as! String
         
