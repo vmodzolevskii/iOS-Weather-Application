@@ -12,7 +12,7 @@ import SnapKit
 class ForecastView: UIView, UITableViewDataSource {
     var forecastRecordsTableView = UITableView()
     
-    var forecastRecords = [1]
+    var forecastRecords = [1, 2, 3, 4 ,5, 6, 7, 8, 1,1,1]
     
     let multicoloredLine = MulticoloredView()
     let cityTitle = UILabel()
@@ -21,6 +21,7 @@ class ForecastView: UIView, UITableViewDataSource {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        forecastRecordsTableView.rowHeight = 100
         forecastRecordsTableView.translatesAutoresizingMaskIntoConstraints = false
         forecastRecordsTableView.dataSource = self
         forecastRecordsTableView.register(ForecastRecordTableViewCell.self, forCellReuseIdentifier: "contactCell")
@@ -80,8 +81,13 @@ class ForecastView: UIView, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ForecastRecordTableViewCell
-        cell.textLabel?.text = String(forecastRecords[0])
+        cell.timeLabel.text = "25:00"
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+        
     
 }
