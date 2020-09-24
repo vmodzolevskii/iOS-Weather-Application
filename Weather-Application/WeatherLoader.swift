@@ -73,7 +73,6 @@ class WeatherLoader {
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data = data, error == nil {
-                print(String(decoding: data, as: UTF8.self))
                 do {
                     guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] else { return }
                     

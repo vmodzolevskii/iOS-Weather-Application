@@ -14,7 +14,6 @@ protocol WeatherDataRetrievedDelegate: class {
     func updateWeather()
 }
 
-
 class WeatherViewController: UIViewController, CLLocationManagerDelegate, WeatherDataRetrievedDelegate {
     var mainView: DailyWeatherView?
     let weatherPresenter: WeatherPresenter
@@ -49,18 +48,12 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         collectText()
     }
     
-    func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
-        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
-            completion(placemarks?.first?.locality,
-                       placemarks?.first?.country,
-                       error)
-        }
-    }
-    
     func collectText() {
         var weather = "city - \(weatherPresenter.city), "
         weather += "temperature - \(weatherPresenter.temperature), "
-        weather += "state - \(weatherPresenter.state)"
+        weather += "state - \(weatherPresenter.state), "
+        weather += "humidity - \(weatherPresenter.humidity), "
+        weather += "windSpeed - \(weatherPresenter.speed)"
         weatherAsText = weather
     }
     
@@ -68,6 +61,13 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if ConnectivityVerification.isConnectedToInternet {
+
+        } else {
+            let alertManager = AlertManager()
+            self.present(alertManager.absenceConnectionAlert(), animated: true)
+        }
+
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
@@ -80,6 +80,11 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location: CLLocation = manager.location else { return }
         fetchCityAndCountry(from: location) { city, country, error in
             guard let city = city, let country = country, error == nil else { return }
@@ -88,15 +93,18 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         }
     }
     
+    func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
+        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+            completion(placemarks?.first?.locality,
+                       placemarks?.first?.country,
+                       error)
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         // verification on internet connection
-        if !ConnectivityVerification.isConnectedToInternet {
-
-        } else {
-            let alertManager = AlertManager()
-            self.present(alertManager.absenceConnectionAlert(), animated: true)
-        }
+        
     }
     
     private func shareWeatherAsText(){

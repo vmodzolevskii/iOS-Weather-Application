@@ -118,11 +118,12 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if forecastRecords != nil {
             let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ForecastRecordTableViewCell
+            cell.selectionStyle = .none
             
             let section = forecastRecords![indexPath.section]
             let rowData = section[indexPath.row]
             
-            cell.timeLabel.text = rowData.temp
+            cell.tempLabel.text = rowData.temp
             cell.stateLabel.text = rowData.state
             cell.timeLabel.text = rowData.time
             

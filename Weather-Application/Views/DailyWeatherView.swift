@@ -199,12 +199,21 @@ class DailyWeatherView: UIView {
         return imageView
     }
     
+    func setDetailsImages() {
+        characteristicViews.append(characteristicImageView(with: "Humidity"))
+        characteristicViews.append(characteristicImageView(with: "Drop"))
+        characteristicViews.append(characteristicImageView(with: "Celsius"))
+        characteristicViews.append(characteristicImageView(with: "Wind"))
+        characteristicViews.append(characteristicImageView(with: "Compass"))
+    }
+    
     func setupDefaultValues() {
+        setDetailsImages()
+        
         for i in 0..<5 {
             let label = UILabel()
             label.text = "-" + valueUnits[i]
             characteristicLabels.append(label)
-            characteristicViews.append(characteristicImageView(with: "Placeholder"))
             
             detailsInfoView.addSubview(characteristicViews[i])
             detailsInfoView.addSubview(characteristicLabels[i])
