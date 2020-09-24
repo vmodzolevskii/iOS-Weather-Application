@@ -7,8 +7,7 @@ target 'Weather-Application' do
 
   # Pods for Weather-Application
 
-pod 'Alamofire'
-pod ‘SwiftyJSON’
+pod 'Alamofire' 
 pod 'SnapKit'
 
 end
