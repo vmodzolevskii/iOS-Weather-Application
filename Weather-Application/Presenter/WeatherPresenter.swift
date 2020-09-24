@@ -29,6 +29,11 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     init() {
         weatherLoader.weatherDelegate = self
         weatherLoader.forecastDelegate = self
+        
+    }
+    
+    func completeRequests(with city: String, with country: String) {
+        // update city and country
         weatherLoader.completeRequest()
         weatherLoader.completeForecastRequest()
     }

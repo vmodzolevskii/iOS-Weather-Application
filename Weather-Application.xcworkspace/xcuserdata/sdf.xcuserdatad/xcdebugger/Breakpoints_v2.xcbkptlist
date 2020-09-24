@@ -700,8 +700,8 @@
             filePath = "Weather-Application/Presenter/WeatherPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86">
+            startingLineNumber = "91"
+            endingLineNumber = "91">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -714,8 +714,8 @@
             filePath = "Weather-Application/Presenter/WeatherPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86">
+            startingLineNumber = "91"
+            endingLineNumber = "91">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -970,6 +970,70 @@
                   startingLineNumber = "62"
                   endingLineNumber = "62"
                   offsetFromSymbolStart = "45">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4FDD4908-4A6C-4816-95A5-728F1B14F13B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Weather-Application/ViewControllers/WeatherViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "locationManager(_:didUpdateLocations:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CB84073A-1536-44C5-9004-F96E0864833E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Weather-Application/ViewControllers/WeatherViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "locationManager(_:didUpdateLocations:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CB84073A-1536-44C5-9004-F96E0864833E - 60f3db554057d56d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Weather_Application.WeatherViewController.locationManager(_: __C.CLLocationManager, didUpdateLocations: Swift.Array&lt;__C.CLLocation&gt;) -&gt; ()"
+                  moduleName = "Weather-Application"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sdf/Documents/Xcode%20projects/Weather-Application/Weather-Application/ViewControllers/WeatherViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "105"
+                  endingLineNumber = "105"
+                  offsetFromSymbolStart = "203">
+               </Location>
+               <Location
+                  uuid = "CB84073A-1536-44C5-9004-F96E0864833E - 10685e215c3b9348"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Weather_Application.WeatherViewController.locationManager(_: __C.CLLocationManager, didUpdateLocations: Swift.Array&lt;__C.CLLocation&gt;) -&gt; ()"
+                  moduleName = "Weather-Application"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sdf/Documents/Xcode%20projects/Weather-Application/Weather-Application/ViewControllers/WeatherViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "207">
                </Location>
             </Locations>
          </BreakpointContent>

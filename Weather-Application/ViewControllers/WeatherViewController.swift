@@ -103,8 +103,18 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location: CLLocation = manager.location else { return }
         fetchCityAndCountry(from: location) { city, country, error in
-            guard let city = city, let country = country, error == nil else { return }
-            print()
+            guard let city = city, var country = country, error == nil else {
+                debugPrint("can't define current location")
+                return
+            }
+            
+            for (key, value) in Language.languages {
+                if value == country {
+                    country = key
+                    break
+                }
+            }
+            
             print(city + ", " + country)
         }
     }
