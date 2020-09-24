@@ -100,11 +100,33 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var dayOfMonth = forecastRecords![0][2] as! String
+        
+        let startIndex = dayOfMonth.index(dayOfMonth.startIndex, offsetBy: 8)
+        let endIndex = dayOfMonth.index(dayOfMonth.endIndex, offsetBy: -9)
+        let superStr = String(dayOfMonth[startIndex..<endIndex])
+        
         var currentHours = Calendar.current.component(.hour, from: Date())
+        var currentMinutes = Calendar.current.component(.minute, from: Date())
+        
+        var firstHeaderCount = 0
+        
+        for index in 0..<forecastRecords!.count {
+            var dayOfMonth = forecastRecords![index][2] as! String
+            
+            let startIndex = dayOfMonth.index(dayOfMonth.startIndex, offsetBy: 8)
+            let endIndex = dayOfMonth.index(dayOfMonth.endIndex, offsetBy: -9)
+            let substr = String(dayOfMonth[startIndex..<endIndex])
+            
+            if superStr == substr {
+                firstHeaderCount += 1
+            }
+        }
+        
         if section == 0 {
-            return (23 - currentHours) / 3
+            return firstHeaderCount
         } else if section == 5 {
-            return 8 - (23 - currentHours) / 3
+            return 8 - firstHeaderCount
         } else {
             return 8
         }
@@ -139,6 +161,7 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
             case "Clouds": currentState = UIImage(named: "Clouds")
             case "Rain": currentState = UIImage(named: "Rain")
             case "Fog": currentState = UIImage(named: "Fog")
+            case "Mist": currentState = UIImage(named: "Mistc")
             default: break
             }
             
