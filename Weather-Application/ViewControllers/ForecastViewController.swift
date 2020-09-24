@@ -31,7 +31,13 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
     init(presenter: WeatherPresenter) {
         self.weatherPresenter = presenter
         super.init(nibName: nil, bundle: nil)
-        weatherPresenter.forecastDataRetrievedDelegate = self
+        // verification on internet connection
+        if !ConnectivityVerification.isConnectedToInternet {
+            weatherPresenter.forecastDataRetrievedDelegate = self
+        } else {
+            let alertManager = AlertManager()
+            self.present(alertManager.absenceConnectionAlert(), animated: true)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -39,6 +45,7 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
     }
     
@@ -99,7 +106,10 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
         self.view.backgroundColor = .white
         let forecastView = ForecastView(frame: UIScreen.main.bounds)
         forecastView.forecastRecords = records
-        forecastView.rowsAtFirstSection = sectionRows![0]
+        if let rowsCount = sectionRows?[0] {
+            forecastView.rowsAtFirstSection = rowsCount
+        }
+        
         forecastView.cityTitle.text = city
         self.forecastView = forecastView
         self.view.addSubview(forecastView)
