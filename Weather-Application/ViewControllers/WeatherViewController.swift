@@ -15,37 +15,20 @@ protocol WeatherDataRetrievedDelegate: class {
 }
 
 class WeatherViewController: UIViewController, CLLocationManagerDelegate, WeatherDataRetrievedDelegate {
-    var mainView: DailyWeatherView?
+    var dailyWeatherView: DailyWeatherView?
     let weatherPresenter: WeatherPresenter
     
     let locationManager = CLLocationManager()
-    var weatherAsText: String?
+    var weatherAsText: String = ""
     
+    // MARK: Init
     init(presenter: WeatherPresenter) {
         self.weatherPresenter = presenter
         super.init(nibName: nil, bundle: nil)
-        weatherPresenter.weatherDataRetrievedDelegate = self
-        
-        let myDate = Date()
-        var weekday = Calendar.current.component(.weekday, from: myDate)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func updateWeather() {
-        var parameters = [String: Any]()
-        parameters[DataModel.city.rawValue] = weatherPresenter.city
-        parameters[DataModel.country.rawValue] = weatherPresenter.country
-        parameters[DataModel.temp.rawValue] = weatherPresenter.temperature
-        parameters[DataModel.state.rawValue] = weatherPresenter.state
-        
-        let params = [weatherPresenter.humidity, weatherPresenter.clouds, weatherPresenter.pressure, weatherPresenter.speed, weatherPresenter.direction]
-        parameters[DataModel.details.rawValue] = params
-    
-        mainView?.updateView(parameters: parameters)
-        collectText()
     }
     
     func collectText() {
@@ -57,7 +40,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         weatherAsText = weather
     }
     
-    
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -76,14 +59,52 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
             locationManager.startUpdatingLocation()
         }
         
-        mainView!.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
+        dailyWeatherView!.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
     }
     
+    override func loadView() {
+        self.view = UIView(frame: UIScreen.main.bounds)
+        self.view.backgroundColor = .white
+        let weatherView = DailyWeatherView(frame: UIScreen.main.bounds)
+        self.dailyWeatherView = weatherView
+        self.view.addSubview(weatherView)
+        
+        weatherView.snp.makeConstraints { make in
+            make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
+            make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+        }
+    }
+    
+    // MARK: WeatherDataRetrievedDelegate
+    func updateWeather() {
+        var parameters = [String: Any]()
+        parameters[DataModel.city.rawValue] = weatherPresenter.city
+        parameters[DataModel.country.rawValue] = weatherPresenter.country
+        parameters[DataModel.temp.rawValue] = weatherPresenter.temperature
+        parameters[DataModel.state.rawValue] = weatherPresenter.state
+        
+        let params = [weatherPresenter.humidity, weatherPresenter.clouds, weatherPresenter.pressure, weatherPresenter.speed, weatherPresenter.direction]
+        parameters[DataModel.details.rawValue] = params
+    
+        dailyWeatherView?.updateView(parameters: parameters)
+        collectText()
+    }
+    
+    // MARK: Sharing data
+    private func shareWeatherAsText(){
+        let sharingViewController = UIActivityViewController(activityItems: [weatherAsText ?? ""], applicationActivities: [])
+        self.present(sharingViewController, animated: true)
+    }
+    
+    
+    // MARK: Geolocation
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location: CLLocation = manager.location else { return }
         fetchCityAndCountry(from: location) { city, country, error in
@@ -100,34 +121,5 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
                        error)
         }
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        // verification on internet connection
-        
-    }
-    
-    private func shareWeatherAsText(){
-        let sharingViewController = UIActivityViewController(activityItems: [weatherAsText], applicationActivities: [])
-        self.present(sharingViewController, animated: true)
-    }
-    
-    
-    override func loadView() {
-        self.view = UIView(frame: UIScreen.main.bounds)
-        self.view.backgroundColor = .white
-        let weatherView = DailyWeatherView(frame: UIScreen.main.bounds)
-        self.mainView = weatherView
-        self.view.addSubview(weatherView)
-        
-        weatherView.snp.makeConstraints { make in
-            make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
-            make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-        }
-        
-    }
-    
 }
         

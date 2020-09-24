@@ -70,9 +70,6 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
         return (weatherDataModel != nil) ? String(weatherDataModel!.windDirection) : ""
     }
     
-    
-    
-    
     // MARK: WeatherResultDelegate
     func weatherDataRetrieved() {
         weatherDataModel = weatherLoader.getDataModel()

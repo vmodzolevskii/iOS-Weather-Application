@@ -11,19 +11,20 @@ import SnapKit
 
 class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     var forecastRecordsTableView: UITableView?
-    
     var forecastRecords: [[ForecastRecord]]?
+    let cityTitle = UILabel()
+    
+    var headers = [String]()
+    var rowsAtFirstSection = 0
     
     let multicoloredLine = MulticoloredView()
-    let cityTitle = UILabel()
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
     
     let weekdays = [2: "Monday", 3: "Tuesday", 4: "Wednesday",
                     5: "Thursday", 6: "Friday", 7: "Saturday", 1: "Sunday"]
-    var headers = [String]()
     
-    var rowsAtFirstSection = 0
+    let reuseIdentifier = "forecastCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,7 +33,7 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         forecastRecordsTableView!.translatesAutoresizingMaskIntoConstraints = false
         forecastRecordsTableView!.dataSource = self
         forecastRecordsTableView!.delegate = self
-        forecastRecordsTableView!.register(ForecastRecordTableViewCell.self, forCellReuseIdentifier: "contactCell")
+        forecastRecordsTableView!.register(ForecastRecordTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         defineHeaders()
         setupViews()
     }
@@ -108,17 +109,24 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int  {
-        return 6
+        if forecastRecords != nil {
+            return 6
+        } else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return headers[section]
+        if forecastRecords?.count != nil {
+            return headers[section]
+        } else {
+            return ""
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if forecastRecords != nil {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ForecastRecordTableViewCell
-            cell.selectionStyle = .none
+        if forecastRecords?.count != 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ForecastRecordTableViewCell
             
             let section = forecastRecords![indexPath.section]
             let rowData = section[indexPath.row]
