@@ -43,9 +43,8 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if ConnectivityVerification.isConnectedToInternet {
-
+            weatherPresenter.weatherDataRetrievedDelegate = self
         } else {
             let alertManager = AlertManager()
             self.present(alertManager.absenceConnectionAlert(), animated: true)
@@ -62,10 +61,6 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         dailyWeatherView!.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-    }
     
     override func loadView() {
         self.view = UIView(frame: UIScreen.main.bounds)

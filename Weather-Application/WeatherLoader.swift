@@ -22,7 +22,7 @@ class WeatherLoader {
     func getCityName() -> String { return city }
     
     let appID = "8b8358002d4bb6c08c08f037476cf8fd"
-    let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=Moscow,ru?&units=metric&APPID="
+    let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=London,uk?&units=metric&APPID="
     let forecastWeatherURL = "https://api.openweathermap.org/data/2.5/forecast?q=London,uk?&units=metric&APPID="
     
     func completeRequest() {
@@ -61,7 +61,7 @@ class WeatherLoader {
                     }
                 
                 } catch {
-                    
+                    debugPrint("json parsing error")
                 }
             }
         }
@@ -101,7 +101,7 @@ class WeatherLoader {
                     }
                 
                 } catch {
-                    
+                    debugPrint("json parsing error")
                 }
             }
         }

@@ -109,15 +109,15 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int  {
-        if forecastRecords != nil {
+        if forecastRecords?.count != 0 {
             return 6
         } else {
-            return 0
+            return 1
         }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if forecastRecords?.count != nil {
+        if forecastRecords?.count != 0 {
             return headers[section]
         } else {
             return ""

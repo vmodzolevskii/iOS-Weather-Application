@@ -32,7 +32,7 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
         self.weatherPresenter = presenter
         super.init(nibName: nil, bundle: nil)
         // verification on internet connection
-        if !ConnectivityVerification.isConnectedToInternet {
+        if ConnectivityVerification.isConnectedToInternet {
             weatherPresenter.forecastDataRetrievedDelegate = self
         } else {
             let alertManager = AlertManager()
