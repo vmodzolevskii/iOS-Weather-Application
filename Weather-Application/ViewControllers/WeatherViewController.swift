@@ -50,6 +50,14 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         collectText()
     }
     
+    func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
+        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+            completion(placemarks?.first?.locality,
+                       placemarks?.first?.country,
+                       error)
+        }
+    }
+    
     func collectText() {
         var weather = "city - \(weatherPresenter.city), "
         weather += "temperature - \(weatherPresenter.temperature), "
@@ -61,21 +69,24 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        locationManager.requestAlwaysAuthorization()
-//        locationManager.requestWhenInUseAuthorization()
-//        if CLLocationManager.locationServicesEnabled() {
-//            locationManager.delegate = self
-//            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-//            locationManager.startUpdatingLocation()
-//        }
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
         
-        //mainView.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
         mainView!.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        guard let location: CLLocation = manager.location else { return }
+        fetchCityAndCountry(from: location) { city, country, error in
+            guard let city = city, let country = country, error == nil else { return }
+            print()
+            print(city + ", " + country)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,10 +98,6 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
             let alertManager = AlertManager()
             self.present(alertManager.absenceConnectionAlert(), animated: true)
         }
-        // verification on
-        //mainView.shareWeatherAction = self.shareWeatherAsText()
-        
-        
     }
     
     private func shareWeatherAsText(){
