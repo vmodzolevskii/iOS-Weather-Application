@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>allow app to know your current location</string>
+	<string>Allow app to know your current location</string>
 	<key>NSLocationUsageDescription</key>
-	<string>allow app to know your current location</string>
+	<string>Allow app to know your current location</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
