@@ -29,7 +29,6 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
         
         let myDate = Date()
         var weekday = Calendar.current.component(.weekday, from: myDate)
-        print("WEEKDAY: \(weekday)")
     }
     
     required init?(coder: NSCoder) {
@@ -92,7 +91,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         // verification on internet connection
-        if ConnectivityVerification.isConnectedToInternet {
+        if !ConnectivityVerification.isConnectedToInternet {
 
         } else {
             let alertManager = AlertManager()

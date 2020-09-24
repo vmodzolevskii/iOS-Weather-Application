@@ -83,7 +83,7 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         }
         
         cityTitle.snp.makeConstraints { make in
-            make.centerX.equalTo(titleView)
+            make.center.equalTo(titleView)
         }
         
         multicoloredLine.setNeedsDisplay()

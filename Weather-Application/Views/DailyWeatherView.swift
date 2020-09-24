@@ -295,6 +295,7 @@ class DailyWeatherView: UIView {
         case "Clouds": currentState = UIImage(named: "Clouds")
         case "Rain": currentState = UIImage(named: "Rain")
         case "Fog": currentState = UIImage(named: "Fog")
+        case "Mist": currentState = UIImage(named: "Mist")
         default: break
         }
         
@@ -305,10 +306,30 @@ class DailyWeatherView: UIView {
         temperatureTitle.text = temperatureText + " | " + (state as! String)
         
         //details info updating
-        let details = parameters[DataModel.details.rawValue] as! [String]
+        var details = parameters[DataModel.details.rawValue] as! [String]
+        let windDegreeString = details[4] as! String
+        let windDegree = Int(windDegreeString)
+        details[4] = defineWindDirection(degree: windDegree!)
         for i in 0..<characteristicLabels.count {
             characteristicLabels[i].text = (details[i] as! String) + (valueUnits[i])
         }
+    }
+    
+    func defineWindDirection(degree: Int) -> String {
+        var direction = ""
+        switch degree {
+        case (0..<25): direction = "N"
+        case (335..<360): direction = "N"
+        case 25..<65: direction = "NE"
+        case 65..<115: direction = "E"
+        case 115..<155: direction = "SE"
+        case 155..<205: direction = "S"
+        case 205..<245: direction = "SW"
+        case 245..<295: direction = "W"
+        case 295..<335: direction = "NW"
+        default: break
+        }
+        return direction
     }
     
 }
