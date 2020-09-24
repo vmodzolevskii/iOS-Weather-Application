@@ -33,9 +33,8 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
     
     func updateForecast() {
         let array = weatherPresenter.forecast
-        print("IN FORECAST VC")
-        print(array)
-        //forecastView?.cityTitle.text = weatherPresenter.city
+        //forecastView?.forecastRecords = array!
+        //forecastView!.updateView(with: array!)
     }
     
     override func loadView() {

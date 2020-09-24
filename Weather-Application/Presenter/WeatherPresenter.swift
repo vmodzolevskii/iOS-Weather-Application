@@ -22,7 +22,6 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     
     let weatherLoader = WeatherLoader()
     
-    
     var weatherDataRetrievedDelegate: WeatherDataRetrievedDelegate? = nil
     var forecastDataRetrievedDelegate: ForecastDataRetrevedDelegate? = nil
     

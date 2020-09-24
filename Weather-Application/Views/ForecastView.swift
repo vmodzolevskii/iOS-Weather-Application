@@ -9,10 +9,10 @@
 import UIKit
 import SnapKit
 
-class ForecastView: UIView, UITableViewDataSource {
-    var forecastRecordsTableView = UITableView()
+class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
+    var forecastRecordsTableView: UITableView?
     
-    var forecastRecords = [1, 2, 3, 4 ,5, 6, 7, 8, 1,1, 1]
+    var forecastRecords: [[Any]]?
     
     let multicoloredLine = MulticoloredView()
     let cityTitle = UILabel()
@@ -20,14 +20,17 @@ class ForecastView: UIView, UITableViewDataSource {
     var screenWidth: CGFloat = 0.0
     
     let weekdays = [2: "Monday", 3: "Tuesday", 4: "Wednesday", 5: "Thursday", 6: "Friday", 7: "Saturday", 1: "Sunday"]
+    
     var headers = [String]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        forecastRecordsTableView.rowHeight = 100
-        forecastRecordsTableView.translatesAutoresizingMaskIntoConstraints = false
-        forecastRecordsTableView.dataSource = self
-        forecastRecordsTableView.register(ForecastRecordTableViewCell.self, forCellReuseIdentifier: "contactCell")
+        forecastRecordsTableView = UITableView()
+        forecastRecordsTableView!.rowHeight = 100
+        forecastRecordsTableView!.translatesAutoresizingMaskIntoConstraints = false
+        forecastRecordsTableView!.dataSource = self
+        forecastRecordsTableView!.delegate = self
+        forecastRecordsTableView!.register(ForecastRecordTableViewCell.self, forCellReuseIdentifier: "contactCell")
         defineHeaders()
         setupViews()
     }
@@ -36,11 +39,16 @@ class ForecastView: UIView, UITableViewDataSource {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func updateView(with data: [[Any]]) {
+        forecastRecords = data
+        forecastRecordsTableView?.reloadData()
+    }
+    
     func defineHeaders() {
         let myDate = Date()
         var weekday = Calendar.current.component(.weekday, from: myDate)
         
-        for _ in 0..<4 {
+        for _ in 0..<6 {
             headers.append(weekdays[weekday]!)
             weekday += 1
             if weekday == 8 {
@@ -56,8 +64,8 @@ class ForecastView: UIView, UITableViewDataSource {
         
         setupTitle()
         
-        self.addSubview(forecastRecordsTableView)
-        forecastRecordsTableView.snp.makeConstraints { make in
+        self.addSubview(forecastRecordsTableView!)
+        forecastRecordsTableView!.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(multicoloredLine.snp.bottom)
             make.bottom.equalToSuperview()
@@ -92,12 +100,18 @@ class ForecastView: UIView, UITableViewDataSource {
     
     // MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        var currentHours = Calendar.current.component(.hour, from: Date())
+        if section == 0 {
+            return (23 - currentHours) / 3
+        } else if section == 5 {
+            return 8 - (23 - currentHours) / 3
+        } else {
+            return 8
+        }
     }
     
-    
     func numberOfSections(in tableView: UITableView) -> Int  {
-        return 4
+        return 6
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -105,9 +119,16 @@ class ForecastView: UIView, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ForecastRecordTableViewCell
-        cell.timeLabel.text = "25:00"
-        return cell
+        if forecastRecords != nil {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ForecastRecordTableViewCell
+            
+            cell.tempLabel.text = (forecastRecords![indexPath.row][0] as! String)
+            cell.stateLabel.text = forecastRecords![indexPath.row][1] as! String
+            
+            cell.timeLabel.text = "25:00"
+            return cell
+        }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
