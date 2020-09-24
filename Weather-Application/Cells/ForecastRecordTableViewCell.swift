@@ -22,6 +22,13 @@ class ForecastRecordTableViewCell: UITableViewCell {
     var timeLabel = UILabel()
     var stateLabel = UILabel()
     var tempLabel = UILabel()
+    var stateImage: UIImage?
+    
+    func updateStateImage() {
+        let targetSize = CGSize(width: 80, height: 80)
+        stateImage = stateImage!.scalePreservingAspectRatio(targetSize: targetSize)
+        weatherStateImageView.image = stateImage
+    }
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

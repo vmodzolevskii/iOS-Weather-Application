@@ -122,10 +122,31 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         if forecastRecords != nil {
             let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ForecastRecordTableViewCell
             
-            cell.tempLabel.text = (forecastRecords![indexPath.row][0] as! String)
+            let tempValue = String(Int(forecastRecords![indexPath.row][0] as! Double)) + "%@"
+            cell.tempLabel.text = NSString(format: tempValue as NSString, "\u{00B0}") as String
             cell.stateLabel.text = forecastRecords![indexPath.row][1] as! String
             
-            cell.timeLabel.text = "25:00"
+            let str = forecastRecords![indexPath.row][2] as! String
+            let startIndex = str.index(str.startIndex, offsetBy: 11)
+            let endIndex = str.index(str.endIndex, offsetBy: -3)
+            let substr = str[startIndex..<endIndex]
+            cell.timeLabel.text = String(substr)
+            
+            let state = forecastRecords![indexPath.row][1] as! String
+            var currentState: UIImage?
+            switch (state as! String) {
+            case "Clear": currentState = UIImage(named: "Clear")
+            case "Clouds": currentState = UIImage(named: "Clouds")
+            case "Rain": currentState = UIImage(named: "Rain")
+            case "Fog": currentState = UIImage(named: "Fog")
+            default: break
+            }
+            
+            if currentState != nil {
+                cell.stateImage = currentState
+                cell.updateStateImage()
+            }
+            
             return cell
         }
         return UITableViewCell()

@@ -16,6 +16,7 @@ protocol ForecastDataRetrevedDelegate: class {
 class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
     var forecastView: ForecastView?
     var weatherPresenter: WeatherPresenter
+    var array: [[Any]]?
     
     init(presenter: WeatherPresenter) {
         self.weatherPresenter = presenter
@@ -32,7 +33,7 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
     }
     
     func updateForecast() {
-        let array = weatherPresenter.forecast
+        array = weatherPresenter.forecast
         //forecastView?.forecastRecords = array!
         //forecastView!.updateView(with: array!)
     }
@@ -41,6 +42,7 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
         self.view = UIView(frame: UIScreen.main.bounds)
         self.view.backgroundColor = .white
         let forecastView = ForecastView(frame: UIScreen.main.bounds)
+        forecastView.forecastRecords = array
         self.forecastView = forecastView
         self.view.addSubview(forecastView)
         
