@@ -21,7 +21,7 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     var forecast: [[Any]]?
     var forecastCity: String?
     
-    let weatherLoader = WeatherLoader()
+    private let weatherLoader = WeatherLoader()
     
     var weatherDataRetrievedDelegate: WeatherDataRetrievedDelegate? = nil
     var forecastDataRetrievedDelegate: ForecastDataRetrevedDelegate? = nil

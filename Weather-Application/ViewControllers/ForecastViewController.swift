@@ -21,12 +21,12 @@ struct ForecastRecord {
 }
 
 class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
-    var forecastView: ForecastView?
-    var weatherPresenter: WeatherPresenter
-    var array: [[Any]]?
-    var city: String?
-    var records = [[ForecastRecord]]()
-    var sectionRows: [Int]?
+    private var forecastView: ForecastView?
+    private var weatherPresenter: WeatherPresenter
+    private var array: [[Any]]?
+    private var city: String?
+    private var records = [[ForecastRecord]]()
+    private var sectionRows: [Int]?
     
     init(presenter: WeatherPresenter) {
         self.weatherPresenter = presenter

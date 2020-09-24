@@ -43,6 +43,5 @@ enum DataModel: String {
     case country
     case temp
     case state
-    
     case details
 }

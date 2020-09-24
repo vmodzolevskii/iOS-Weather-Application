@@ -10,21 +10,21 @@ import UIKit
 import SnapKit
 
 class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
-    var forecastRecordsTableView: UITableView?
+    private var forecastRecordsTableView: UITableView?
     var forecastRecords: [[ForecastRecord]]?
     let cityTitle = UILabel()
     
     var headers = [String]()
     var rowsAtFirstSection = 0
     
-    let multicoloredLine = MulticoloredView()
-    var screenHeight: CGFloat = 0.0
-    var screenWidth: CGFloat = 0.0
+    private let multicoloredLine = MulticoloredView()
+    private var screenHeight: CGFloat = 0.0
+    private var screenWidth: CGFloat = 0.0
     
-    let weekdays = [2: "Monday", 3: "Tuesday", 4: "Wednesday",
+    private let weekdays = [2: "Monday", 3: "Tuesday", 4: "Wednesday",
                     5: "Thursday", 6: "Friday", 7: "Saturday", 1: "Sunday"]
     
-    let reuseIdentifier = "forecastCell"
+    private let reuseIdentifier = "forecastCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,7 +42,7 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func defineHeaders() {
+    private func defineHeaders() {
         let myDate = Date()
         var weekday = Calendar.current.component(.weekday, from: myDate)
         
@@ -55,7 +55,7 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func setupViews() {
+    private func setupViews() {
         let size = UIScreen.main.bounds
         screenHeight = size.height
         screenWidth = size.width
@@ -70,7 +70,7 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func setupTitle() {
+    private func setupTitle() {
         cityTitle.font = UIFont.systemFont(ofSize: 22)
         cityTitle.text = "City"
         
@@ -137,7 +137,7 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
             
             let state = rowData.state
             var currentState: UIImage?
-            switch (state as! String) {
+            switch (state) {
             case "Clear": currentState = UIImage(named: "Clear")
             case "Clouds": currentState = UIImage(named: "Clouds")
             case "Rain": currentState = UIImage(named: "Rain")

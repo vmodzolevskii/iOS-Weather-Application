@@ -15,11 +15,11 @@ protocol WeatherDataRetrievedDelegate: class {
 }
 
 class WeatherViewController: UIViewController, CLLocationManagerDelegate, WeatherDataRetrievedDelegate {
-    var dailyWeatherView: DailyWeatherView?
-    let weatherPresenter: WeatherPresenter
+    private var dailyWeatherView: DailyWeatherView?
+    private let weatherPresenter: WeatherPresenter
     
-    let locationManager = CLLocationManager()
-    var weatherAsText: String = ""
+    private let locationManager = CLLocationManager()
+    private var weatherAsText: String = ""
     
     // MARK: Init
     init(presenter: WeatherPresenter) {
@@ -94,7 +94,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     
     // MARK: Sharing data
     private func shareWeatherAsText(){
-        let sharingViewController = UIActivityViewController(activityItems: [weatherAsText ?? ""], applicationActivities: [])
+        let sharingViewController = UIActivityViewController(activityItems: [weatherAsText], applicationActivities: [])
         self.present(sharingViewController, animated: true)
     }
     

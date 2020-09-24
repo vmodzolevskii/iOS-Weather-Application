@@ -13,33 +13,33 @@ class DailyWeatherView: UIView {
     public var shareWeatherAction: (() -> Void)?
     
     // to determine sizes of views
-    var screenHeight: CGFloat = 0.0
-    var screenWidth: CGFloat = 0.0
+    private var screenHeight: CGFloat = 0.0
+    private var screenWidth: CGFloat = 0.0
     
     // info views
-    let titleView = UIView()
-    let mainInfoView = UIView()
-    let detailsInfoView = UIView()
+    private let titleView = UIView()
+    private let mainInfoView = UIView()
+    private let detailsInfoView = UIView()
     // button view
-    let shareView = UIView()
+    private let shareView = UIView()
     // multicolored separator
-    let multicoloredLine = MulticoloredView()
+    private let multicoloredLine = MulticoloredView()
     
     // imageview of current weather state
-    var currentStateImageView: UIImageView?
+    private var currentStateImageView: UIImageView?
     
     // main weather info
-    let locationTitle = UILabel()
-    let temperatureTitle = UILabel()
+    private let locationTitle = UILabel()
+    private let temperatureTitle = UILabel()
     
     // details of the weather
-    var characteristicLabels = [UILabel]()
-    var characteristicViews = [UIImageView]()
+    private var characteristicLabels = [UILabel]()
+    private var characteristicViews = [UIImageView]()
 
-    let shareButton = UIButton()
+    private let shareButton = UIButton()
     
     // units like mm, pHa, etc
-    var valueUnits = ["%", " mm", " hPa", " km/h", ""]
+    private var valueUnits = ["%", " mm", " hPa", " km/h", ""]
     
     
     override init(frame: CGRect) {
@@ -56,7 +56,7 @@ class DailyWeatherView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTodayLabel() {
+    private func setTodayLabel() {
         let todayLabel = UILabel()
         todayLabel.font = UIFont.systemFont(ofSize: 22)
         todayLabel.text = "Today"
@@ -67,14 +67,14 @@ class DailyWeatherView: UIView {
         }
     }
     
-    func graySeparator() -> UIView {
+    private func graySeparator() -> UIView {
         let view = UIView()
         view.layer.borderWidth = 2.0
         view.layer.backgroundColor = UIColor.gray.cgColor
         return view
     }
     
-    func setupViews() {
+    private func setupViews() {
         // today label
         self.addSubview(titleView)
         setTodayLabel()
@@ -146,7 +146,7 @@ class DailyWeatherView: UIView {
         self.shareWeatherAction?()
     }
     
-    func customizeButton() {
+    private func customizeButton() {
         shareButton.setTitle("Share", for: .normal)
         shareButton.setTitleColor(UIColor.orange, for: .normal)
         shareButton.backgroundColor = UIColor.white
@@ -157,7 +157,7 @@ class DailyWeatherView: UIView {
         }
     }
     
-    func customizeLabels() {
+    private func customizeLabels() {
         locationTitle.textColor = .orange
         locationTitle.font = .systemFont(ofSize: 26)
         locationTitle.text = "City, Country"
@@ -166,7 +166,7 @@ class DailyWeatherView: UIView {
         temperatureTitle.text = "Degree | State"
     }
     
-    func setupMainInfoView() {
+   private  func setupMainInfoView() {
         let currentState = UIImage(named: "Placeholder")
         currentStateImageView = UIImageView(image: currentState)
         mainInfoView.addSubview(currentStateImageView!)
@@ -193,13 +193,13 @@ class DailyWeatherView: UIView {
         }
     }
     
-    func characteristicImageView(with name: String) -> UIImageView {
+    private func characteristicImageView(with name: String) -> UIImageView {
         let image = UIImage(named: name)
         let imageView = UIImageView(image: image)
         return imageView
     }
     
-    func setDetailsImages() {
+    private func setDetailsImages() {
         characteristicViews.append(characteristicImageView(with: "Humidity"))
         characteristicViews.append(characteristicImageView(with: "Drop"))
         characteristicViews.append(characteristicImageView(with: "Celsius"))
@@ -207,7 +207,7 @@ class DailyWeatherView: UIView {
         characteristicViews.append(characteristicImageView(with: "Compass"))
     }
     
-    func setupDefaultValues() {
+    private func setupDefaultValues() {
         setDetailsImages()
         
         for i in 0..<5 {
@@ -220,7 +220,7 @@ class DailyWeatherView: UIView {
         }
     }
     
-    func setupDetailsInfoView() {
+    private func setupDetailsInfoView() {
         setupDefaultValues()
         
         let iconWidthHeight = screenWidth / 12
@@ -316,15 +316,15 @@ class DailyWeatherView: UIView {
         
         //details info updating
         var details = parameters[DataModel.details.rawValue] as! [String]
-        let windDegreeString = details[4] as! String
+        let windDegreeString = details[4]
         let windDegree = Int(windDegreeString)
         details[4] = defineWindDirection(degree: windDegree!)
         for i in 0..<characteristicLabels.count {
-            characteristicLabels[i].text = (details[i] as! String) + (valueUnits[i])
+            characteristicLabels[i].text = (details[i]) + (valueUnits[i])
         }
     }
     
-    func defineWindDirection(degree: Int) -> String {
+    private func defineWindDirection(degree: Int) -> String {
         var direction = ""
         switch degree {
         case (0..<25): direction = "N"
