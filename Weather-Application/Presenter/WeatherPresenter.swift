@@ -19,6 +19,7 @@ public protocol ForecastResultDelegate: class {
 class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     private var weatherDataModel: WeatherDataModel?
     var forecast: [[Any]]?
+    var forecastCity: String?
     
     let weatherLoader = WeatherLoader()
     
@@ -70,6 +71,8 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     }
     
     
+    
+    
     // MARK: WeatherResultDelegate
     func weatherDataRetrieved() {
         weatherDataModel = weatherLoader.getDataModel()
@@ -79,6 +82,7 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     // MARK: ForecastResultDelegate
     func forecastDataRetrieved() {
         forecast = weatherLoader.getForecastData()
+        forecastCity = weatherLoader.getCityName()
         forecastDataRetrievedDelegate?.updateForecast()
     }
 }

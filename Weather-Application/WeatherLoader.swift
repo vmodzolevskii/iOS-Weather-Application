@@ -9,16 +9,17 @@
 import Foundation
 
 
-
 class WeatherLoader {
     var weatherDataModel: WeatherDataModel?
     var forecastData = [[Any]]()
+    var city = ""
     
     var weatherDelegate: WeatherResultDelegate? = nil
     var forecastDelegate: ForecastResultDelegate? = nil
     
     func getDataModel() -> WeatherDataModel? { return weatherDataModel }
     func getForecastData() -> [[Any]] { return forecastData }
+    func getCityName() -> String { return city }
     
     let appID = "8b8358002d4bb6c08c08f037476cf8fd"
     let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=Moscow,ru?&units=metric&APPID="
@@ -72,20 +73,25 @@ class WeatherLoader {
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data = data, error == nil {
+                print(String(decoding: data, as: UTF8.self))
                 do {
                     guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] else { return }
                     
-                    for index in 0..<40 {
+                    guard let city = json["city"] as! [String: Any]? else { return }
+                    guard let cityname = city["name"] as! String? else { return }
                     
-                        guard let list = try json["list"] as! [[String: Any]]? else { return }
+                    self.city = cityname
+                    
+                    for index in 0..<40 {
+                        guard let list = json["list"] as! [[String: Any]]? else { return }
                         
-                        guard let main = try list[index]["main"] as! [String: Any]? else { return }
-                        guard let temp = try main["temp"] as! Double? else { return }
+                        guard let main = list[index]["main"] as! [String: Any]? else { return }
+                        guard let temp = main["temp"] as! Double? else { return }
                         
-                        guard let weather = try list[index]["weather"] as! [[String: Any]]? else { return }
-                        guard let mainState = try weather[0]["main"] as! String? else { return }
+                        guard let weather = list[index]["weather"] as! [[String: Any]]? else { return }
+                        guard let mainState = weather[0]["main"] as! String? else { return }
                         
-                        guard let date = try list[index]["dt_txt"] as! String? else { return }
+                        guard let date = list[index]["dt_txt"] as! String? else { return }
                         
                         let array = [temp as Any, mainState as Any, date as Any]
                         self.forecastData.append(array)

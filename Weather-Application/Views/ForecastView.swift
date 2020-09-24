@@ -12,16 +12,18 @@ import SnapKit
 class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     var forecastRecordsTableView: UITableView?
     
-    var forecastRecords: [[Any]]?
+    var forecastRecords: [[ForecastRecord]]?
     
     let multicoloredLine = MulticoloredView()
     let cityTitle = UILabel()
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
     
-    let weekdays = [2: "Monday", 3: "Tuesday", 4: "Wednesday", 5: "Thursday", 6: "Friday", 7: "Saturday", 1: "Sunday"]
-    
+    let weekdays = [2: "Monday", 3: "Tuesday", 4: "Wednesday",
+                    5: "Thursday", 6: "Friday", 7: "Saturday", 1: "Sunday"]
     var headers = [String]()
+    
+    var rowsAtFirstSection = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,11 +39,6 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func updateView(with data: [[Any]]) {
-        forecastRecords = data
-        forecastRecordsTableView?.reloadData()
     }
     
     func defineHeaders() {
@@ -98,35 +95,13 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    
     // MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var dayOfMonth = forecastRecords![0][2] as! String
-        
-        let startIndex = dayOfMonth.index(dayOfMonth.startIndex, offsetBy: 8)
-        let endIndex = dayOfMonth.index(dayOfMonth.endIndex, offsetBy: -9)
-        let superStr = String(dayOfMonth[startIndex..<endIndex])
-        
-        var currentHours = Calendar.current.component(.hour, from: Date())
-        var currentMinutes = Calendar.current.component(.minute, from: Date())
-        
-        var firstHeaderCount = 0
-        
-        for index in 0..<forecastRecords!.count {
-            var dayOfMonth = forecastRecords![index][2] as! String
-            
-            let startIndex = dayOfMonth.index(dayOfMonth.startIndex, offsetBy: 8)
-            let endIndex = dayOfMonth.index(dayOfMonth.endIndex, offsetBy: -9)
-            let substr = String(dayOfMonth[startIndex..<endIndex])
-            
-            if superStr == substr {
-                firstHeaderCount += 1
-            }
-        }
-        
         if section == 0 {
-            return firstHeaderCount
+            return rowsAtFirstSection
         } else if section == 5 {
-            return 8 - firstHeaderCount
+            return (8 - rowsAtFirstSection)
         } else {
             return 8
         }
@@ -144,24 +119,21 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         if forecastRecords != nil {
             let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ForecastRecordTableViewCell
             
-            let tempValue = String(Int(forecastRecords![indexPath.row][0] as! Double)) + "%@"
-            cell.tempLabel.text = NSString(format: tempValue as NSString, "\u{00B0}") as String
-            cell.stateLabel.text = forecastRecords![indexPath.row][1] as! String
+            let section = forecastRecords![indexPath.section]
+            let rowData = section[indexPath.row]
             
-            let str = forecastRecords![indexPath.row][2] as! String
-            let startIndex = str.index(str.startIndex, offsetBy: 11)
-            let endIndex = str.index(str.endIndex, offsetBy: -3)
-            let substr = str[startIndex..<endIndex]
-            cell.timeLabel.text = String(substr)
+            cell.timeLabel.text = rowData.temp
+            cell.stateLabel.text = rowData.state
+            cell.timeLabel.text = rowData.time
             
-            let state = forecastRecords![indexPath.row][1] as! String
+            let state = rowData.state
             var currentState: UIImage?
             switch (state as! String) {
             case "Clear": currentState = UIImage(named: "Clear")
             case "Clouds": currentState = UIImage(named: "Clouds")
             case "Rain": currentState = UIImage(named: "Rain")
             case "Fog": currentState = UIImage(named: "Fog")
-            case "Mist": currentState = UIImage(named: "Mistc")
+            case "Mist": currentState = UIImage(named: "Mist")
             default: break
             }
             
