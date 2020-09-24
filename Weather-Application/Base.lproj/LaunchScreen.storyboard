@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,9 +12,31 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoadingScreen" translatesAutoresizingMaskIntoConstraints="NO" id="cHg-6J-wTb">
+                                <rect key="frame" x="121.66666666666667" y="282.66666666666669" width="170.66666666666663" height="170.66666666666669"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INJ-wr-RbY">
+                                <rect key="frame" x="154" y="465" width="106" height="39"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Weather">
+                                        <attributes>
+                                            <font key="NSFont" size="27" name="ChalkboardSE-Regular"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="INJ-wr-RbY" firstAttribute="firstBaseline" secondItem="cHg-6J-wTb" secondAttribute="baseline" constant="42.333333333333336" symbolType="layoutAnchor" id="3F9-ZY-eIK"/>
+                            <constraint firstItem="cHg-6J-wTb" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="3h0-S2-7zI"/>
+                            <constraint firstItem="INJ-wr-RbY" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="aJk-6K-9dS"/>
+                            <constraint firstItem="cHg-6J-wTb" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="z84-yT-ENp"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -23,4 +45,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="LoadingScreen" width="170.66667175292969" height="170.66667175292969"/>
+    </resources>
 </document>
