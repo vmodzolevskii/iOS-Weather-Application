@@ -14,6 +14,9 @@ class WeatherLoader {
     var forecastData = [[Any]]()
     var city = ""
     
+    var requestCity = ""
+    var requestCountry = ""
+    
     var weatherDelegate: WeatherResultDelegate? = nil
     var forecastDelegate: ForecastResultDelegate? = nil
     
@@ -22,11 +25,12 @@ class WeatherLoader {
     func getCityName() -> String { return city }
     
     let appID = "8b8358002d4bb6c08c08f037476cf8fd"
-    let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=London,uk?&units=metric&APPID="
+    let postfix = "?&units=metric&APPID="
+    let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q="
     let forecastWeatherURL = "https://api.openweathermap.org/data/2.5/forecast?q=London,uk?&units=metric&APPID="
     
     func completeRequest() {
-        let url = URL(string: currentWeatherURL + appID)!
+        let url = URL(string: currentWeatherURL + requestCity + "," + requestCountry + postfix + appID)!
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data = data, error == nil {

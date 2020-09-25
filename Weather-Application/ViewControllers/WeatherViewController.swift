@@ -21,6 +21,8 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     private let locationManager = CLLocationManager()
     private var weatherAsText: String = ""
     
+    private var isLocationDefined = false
+    
     // MARK: Init
     init(presenter: WeatherPresenter) {
         self.weatherPresenter = presenter
@@ -107,7 +109,6 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
                 debugPrint("can't define current location")
                 return
             }
-            
             for (key, value) in Language.languages {
                 if value == country {
                     country = key
@@ -115,7 +116,10 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
                 }
             }
             
-            print(city + ", " + country)
+            if self.isLocationDefined == false {
+                self.weatherPresenter.completeRequests(with: city, with: country)
+                self.isLocationDefined = true
+            }
         }
     }
     

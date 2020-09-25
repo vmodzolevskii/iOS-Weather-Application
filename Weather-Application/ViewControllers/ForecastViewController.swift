@@ -26,7 +26,7 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
     private var array: [[Any]]?
     private var city: String?
     private var records = [[ForecastRecord]]()
-    private var sectionRows: [Int]?
+    private var rowsInFirstSection = 0
     
     init(presenter: WeatherPresenter) {
         self.weatherPresenter = presenter
@@ -76,25 +76,27 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
             }
         }
         
-        sectionRows = [firstHeaderCount, 8, 8, 8, 8, 8 - firstHeaderCount]
+        let sectionRows = [firstHeaderCount, 8, 8, 8, 8, (8 - firstHeaderCount)]
+        self.rowsInFirstSection = firstHeaderCount
         var summaryRows = 0
-        for section in sectionRows! {
+        for section in sectionRows {
             var dayRecords = [ForecastRecord]()
-            
-            for _ in 0..<section {
-                let temp = String(Int(array![summaryRows][0] as! Double)) + "%@"
-                let tempText  = NSString(format: temp as NSString, "\u{00B0}") as String
-                
-                let state = array![summaryRows][1] as! String
-                
-                let time = array![summaryRows][2] as! String
-                let startIndex = time.index(time.startIndex, offsetBy: 11)
-                let endIndex = time.index(time.endIndex, offsetBy: -3)
-                let hours = String(time[startIndex..<endIndex])
-                
-                let record = ForecastRecord(temp: tempText, state: state, time: hours, date: time)
-                dayRecords.append(record)
-                summaryRows += 1
+            if section > 0 {
+                for _ in 0..<section {
+                    let temp = String(Int(array![summaryRows][0] as! Double)) + "%@"
+                    let tempText  = NSString(format: temp as NSString, "\u{00B0}") as String
+                    
+                    let state = array![summaryRows][1] as! String
+                    
+                    let time = array![summaryRows][2] as! String
+                    let startIndex = time.index(time.startIndex, offsetBy: 11)
+                    let endIndex = time.index(time.endIndex, offsetBy: -3)
+                    let hours = String(time[startIndex..<endIndex])
+                    
+                    let record = ForecastRecord(temp: tempText, state: state, time: hours, date: time)
+                    dayRecords.append(record)
+                    summaryRows += 1
+                }
             }
             
             records.append(dayRecords)
@@ -106,9 +108,7 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
         self.view.backgroundColor = .white
         let forecastView = ForecastView(frame: UIScreen.main.bounds)
         forecastView.forecastRecords = records
-        if let rowsCount = sectionRows?[0] {
-            forecastView.rowsAtFirstSection = rowsCount
-        }
+        forecastView.rowsAtFirstSection = rowsInFirstSection
         
         forecastView.cityTitle.text = city
         self.forecastView = forecastView
