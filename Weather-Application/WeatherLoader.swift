@@ -27,10 +27,13 @@ class WeatherLoader {
     let appID = "8b8358002d4bb6c08c08f037476cf8fd"
     let postfix = "?&units=metric&APPID="
     let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q="
-    let forecastWeatherURL = "https://api.openweathermap.org/data/2.5/forecast?q=London,uk?&units=metric&APPID="
+    let forecastWeatherURL = "https://api.openweathermap.org/data/2.5/forecast?q="
     
     func completeRequest() {
-        let url = URL(string: currentWeatherURL + requestCity + "," + requestCountry + postfix + appID)!
+        guard let url = URL(string: currentWeatherURL + requestCity + "," + requestCountry + postfix + appID) else {
+            print("invalid url")
+            return
+        }
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data = data, error == nil {
@@ -73,7 +76,10 @@ class WeatherLoader {
     }
     
     func completeForecastRequest() {
-        let url = URL(string: forecastWeatherURL + appID)!
+        guard let url = URL(string: forecastWeatherURL + requestCity + "," + requestCountry + postfix + appID) else {
+            print("invalid url")
+            return
+        }
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data = data, error == nil {

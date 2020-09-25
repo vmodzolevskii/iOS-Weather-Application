@@ -11,6 +11,7 @@ import Foundation
 class Language {
     
 public static let languages = [
+    "uk": "United Kingdom",
     "by": "Belarus",
     "af": "Afrikaan",
     "al": "Albania",
