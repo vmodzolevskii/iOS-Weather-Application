@@ -102,28 +102,25 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
     
     
     // MARK: Geolocation
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location: CLLocation = manager.location else { return }
         fetchCityAndCountry(from: location) { city, country, error in
-            guard let city = city, var country = country, error == nil else {
+            guard let city = city, let country = country, error == nil else {
                 debugPrint("can't define current location")
                 return
             }
-            for (key, value) in Language.languages {
-                if value == country {
-                    country = key
-                    break
-                }
-            }
             
+            // for cases when names includes more than one word
+            let requestCity = city.replacingOccurrences(of: " ", with: "+")
+            let requestCountry = country.replacingOccurrences(of: " ", with: "+")
             if self.isLocationDefined == false {
-                self.weatherPresenter.completeRequests(with: city, with: country)
+                self.weatherPresenter.completeRequests(with: requestCity, with: requestCountry, originalCity: city, originalCountry: country)
                 self.isLocationDefined = true
             }
         }
     }
     
-    func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
+    private func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
             completion(placemarks?.first?.locality,
                        placemarks?.first?.country,

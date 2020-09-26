@@ -288,15 +288,9 @@ class DailyWeatherView: UIView {
     func updateView(parameters: [String: Any]) {
         // main info updating
         // try to define full name of country using language dictionary
-        var country = (parameters[DataModel.country.rawValue] as! String).lowercased()
-        if Language.languages[country] != nil {
-            country = Language.languages[country]!
-        }
+        let country = (parameters[DataModel.country.rawValue] as! String).lowercased()
         let locationText = (parameters[DataModel.city.rawValue] as! String) + ", " + country
-        
-        var state = parameters[DataModel.state.rawValue]
-        if Language.languages[state as! String] != nil {
-            state = Language.languages[state as! String] }
+        let state = parameters[DataModel.state.rawValue]
         
         var currentState: UIImage?
         switch (state as! String) {

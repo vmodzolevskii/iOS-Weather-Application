@@ -25,7 +25,6 @@
 		6682F4E4251A1B2A0074573F /* WeatherPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4E3251A1B2A0074573F /* WeatherPresenter.swift */; };
 		6682F4E6251B490A0074573F /* WeatherLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4E5251B490A0074573F /* WeatherLoader.swift */; };
 		6682F4E9251BB51F0074573F /* ForecastRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4E8251BB51F0074573F /* ForecastRecordTableViewCell.swift */; };
-		6682F4EB251BE7A30074573F /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682F4EA251BE7A20074573F /* Languages.swift */; };
 		7577E26DDCDC56066915814D /* Pods_Weather_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247EB85AF4877DDCF0961630 /* Pods_Weather_Application.framework */; };
 /* End PBXBuildFile section */
 
@@ -53,7 +52,6 @@
 		6682F4E3251A1B2A0074573F /* WeatherPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPresenter.swift; sourceTree = "<group>"; };
 		6682F4E5251B490A0074573F /* WeatherLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherLoader.swift; sourceTree = "<group>"; };
 		6682F4E8251BB51F0074573F /* ForecastRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastRecordTableViewCell.swift; sourceTree = "<group>"; };
-		6682F4EA251BE7A20074573F /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +104,6 @@
 				6640B9FD251421BF002384B7 /* Weather_Application.xcdatamodeld */,
 				6682F4DC25197C220074573F /* MulticoloredView.swift */,
 				6682F4E5251B490A0074573F /* WeatherLoader.swift */,
-				6682F4EA251BE7A20074573F /* Languages.swift */,
 			);
 			path = "Weather-Application";
 			sourceTree = "<group>";
@@ -310,7 +307,6 @@
 			files = (
 				6640B9F9251421BF002384B7 /* ViewController.swift in Sources */,
 				6682F4D6251818B20074573F /* DailyWeatherView.swift in Sources */,
-				6682F4EB251BE7A30074573F /* Languages.swift in Sources */,
 				6682F4DB251974AE0074573F /* ForecastView.swift in Sources */,
 				6682F4CE251807BC0074573F /* WeatherViewController.swift in Sources */,
 				6640B9F5251421BF002384B7 /* AppDelegate.swift in Sources */,

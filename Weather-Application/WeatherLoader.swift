@@ -12,17 +12,18 @@ import Foundation
 class WeatherLoader {
     var weatherDataModel: WeatherDataModel?
     var forecastData = [[Any]]()
-    var city = ""
+    var originalCityName = ""
+    var originalCountryName = ""
     
     var requestCity = ""
     var requestCountry = ""
-    
+
     var weatherDelegate: WeatherResultDelegate? = nil
     var forecastDelegate: ForecastResultDelegate? = nil
     
     func getDataModel() -> WeatherDataModel? { return weatherDataModel }
     func getForecastData() -> [[Any]] { return forecastData }
-    func getCityName() -> String { return city }
+    func getCityName() -> String { return originalCityName }
     
     let appID = "8b8358002d4bb6c08c08f037476cf8fd"
     let postfix = "?&units=metric&APPID="
@@ -89,7 +90,7 @@ class WeatherLoader {
                     guard let city = json["city"] as! [String: Any]? else { return }
                     guard let cityname = city["name"] as! String? else { return }
                     
-                    self.city = cityname
+                    self.originalCityName = cityname
                     
                     for index in 0..<40 {
                         guard let list = json["list"] as! [[String: Any]]? else { return }
