@@ -37,7 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let weatherItem = UITabBarItem()
         weatherItem.title = "Today"
         
-        let weatherImage = UIImage(named: "Placeholder")
+        let weatherImage = UIImage(named: "Sun")
         let targetSize = CGSize(width: 30, height: 30)
         let scaledImage = weatherImage!.scalePreservingAspectRatio(targetSize: targetSize)
         weatherItem.image = scaledImage
@@ -45,7 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let forecastItem = UITabBarItem()
         forecastItem.title = "Forecast"
-        let forecastImage = UIImage(named: "Placeholder")
+        let forecastImage = UIImage(named: "Forecast")
         let forecastScaledImage = forecastImage!.scalePreservingAspectRatio(targetSize: targetSize)
         forecastItem.image = forecastScaledImage
         forecastVC.tabBarItem = forecastItem
