@@ -99,9 +99,9 @@
 				6640B9F4251421BF002384B7 /* AppDelegate.swift */,
 				6640B9F6251421BF002384B7 /* SceneDelegate.swift */,
 				6640BA00251421C4002384B7 /* Assets.xcassets */,
+				6640B9FD251421BF002384B7 /* Weather_Application.xcdatamodeld */,
 				6640BA02251421C4002384B7 /* LaunchScreen.storyboard */,
 				6640BA05251421C4002384B7 /* Info.plist */,
-				6640B9FD251421BF002384B7 /* Weather_Application.xcdatamodeld */,
 			);
 			path = "Weather-Application";
 			sourceTree = "<group>";

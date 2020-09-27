@@ -19,11 +19,11 @@
                                 <rect key="frame" x="121.66666666666667" y="282.66666666666669" width="170.66666666666663" height="170.66666666666669"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INJ-wr-RbY">
-                                <rect key="frame" x="154" y="465" width="106" height="39"/>
+                                <rect key="frame" x="123.00000000000001" y="467.33333333333331" width="168.33333333333337" height="40"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Weather">
                                         <attributes>
-                                            <font key="NSFont" size="27" name="ChalkboardSE-Regular"/>
+                                            <font key="NSFont" size="40" name="Courier"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>

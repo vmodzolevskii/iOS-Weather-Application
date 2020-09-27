@@ -10,10 +10,15 @@ import UIKit
 
 class AlertManager {
     func absenceConnectionAlert() -> UIAlertController {
-        let connectionAlert = UIAlertController(title: "Mobile Data is Turned Off", message: "Turn on mobile data or use Wi-Fi to access data.", preferredStyle: .alert)
+        let connectionAlert = UIAlertController(
+                                    title: "Mobile Data is Turned Off",
+                                    message: "Turn on mobile data or use Wi-Fi to access data.",
+                                    preferredStyle: .alert)
 
-        let settingsAction = UIAlertAction(title: "Settings", style: .cancel) { (_) -> Void in
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+        let settingsAction = UIAlertAction(title: "Settings",
+                                           style: .cancel) { (_) -> Void in
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString)
+                else { return }
 
             if UIApplication.shared.canOpenURL(settingsUrl) {
                 UIApplication.shared.open(settingsUrl, completionHandler: nil)

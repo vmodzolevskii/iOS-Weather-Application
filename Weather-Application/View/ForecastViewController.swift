@@ -14,19 +14,23 @@ protocol ForecastDataRetrevedDelegate: class {
 }
 
 class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
-    private var forecastView: ForecastView?
-    private var weatherPresenter: WeatherPresenter
+    private weak var forecastView: ForecastView?
+    private weak var weatherPresenter: WeatherPresenter?
+    
     private var records: [ForecastRecord]?
-    private var city: String?
     private var sortRecords = [[ForecastRecord]]()
+    
+    private var city: String?
     private var firstSectionRowCount = 0
     
+    // MARK: Init
     init(presenter: WeatherPresenter) {
         self.weatherPresenter = presenter
         super.init(nibName: nil, bundle: nil)
         // verification on internet connection
         if ConnectivityVerification.isConnectedToInternet {
-            weatherPresenter.forecastDataRetrievedDelegate = self
+            guard let presenter = weatherPresenter else { return }
+            presenter.forecastDataRetrievedDelegate = self
         } else {
             let alertManager = AlertManager()
             self.present(alertManager.absenceConnectionAlert(), animated: true)
@@ -37,24 +41,40 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override func loadView() {
+        self.view = UIView(frame: UIScreen.main.bounds)
+        self.view.backgroundColor = .white
+        let forecastView = ForecastView(frame: UIScreen.main.bounds)
+        forecastView.forecastRecords = sortRecords
+        forecastView.rowsAtFirstSection = firstSectionRowCount
+        forecastView.cityTitle.text = city
+        self.forecastView = forecastView
+        self.view.addSubview(forecastView)
         
-        super.viewDidLoad()
+        forecastView.snp.makeConstraints { make in
+            make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
+            make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+        }
     }
     
+    // MARK: Public methods
     func updateForecast() {
-        city = weatherPresenter.forecastCity
-        records = weatherPresenter.forecast
+        guard let presenter = weatherPresenter else { return }
+        city = presenter.forecastCity
+        records = presenter.forecast
         collectRecords()
     }
     
+    // MARK: Private methods
     private func parseMonthDay(date: String) -> String {
         let startIndex = date.index(date.startIndex, offsetBy: 8)
         let endIndex = date.index(date.endIndex, offsetBy: -9)
         return String(date[startIndex..<endIndex])
     }
     
-    func collectRecords() {
+    private func collectRecords() {
         // define count rows in first section
         guard let weatherRecords = records else { return }
         let firstDay = parseMonthDay(date: weatherRecords[0].date)
@@ -87,26 +107,5 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
             }
             sortRecords.append(dailyRecords)
         }
-        
-    }
-    
-    override func loadView() {
-        self.view = UIView(frame: UIScreen.main.bounds)
-        self.view.backgroundColor = .white
-        let forecastView = ForecastView(frame: UIScreen.main.bounds)
-        forecastView.forecastRecords = sortRecords
-        forecastView.rowsAtFirstSection = firstSectionRowCount
-        
-        forecastView.cityTitle.text = city
-        self.forecastView = forecastView
-        self.view.addSubview(forecastView)
-        
-        forecastView.snp.makeConstraints { make in
-            make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
-            make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-        }
-        
     }
 }

@@ -10,17 +10,16 @@ import UIKit
 
 
 class MulticoloredView : UIView {
+    private var customColors: [UIColor?]?
     
-    var customColors: [UIColor]?
-    
-    let pink = UIColor(red: 240 / 255, green: 148 / 255, blue: 213 / 255, alpha: 1)
-    let orange = UIColor(red: 228 / 255, green: 127 / 255, blue: 90 / 255, alpha: 1)
-    let green = UIColor(red: 80 / 255, green: 165 / 255, blue: 108 / 255, alpha: 1)
-    let blue = UIColor(red: 66 / 255, green: 105 / 255, blue: 174 / 255, alpha: 1)
-    let yellow = UIColor(red: 223 / 255, green: 228 / 255, blue: 90 / 255, alpha: 1)
-    let red = UIColor(red: 228 / 255, green: 108 / 255, blue: 90 / 255, alpha: 1)
+    private let pink = UIColor(named: "Pink")
+    private let orange = UIColor(named: "Orange")
+    private let green = UIColor(named: "Green")
+    private let blue = UIColor(named: "Blue")
+    private let yellow = UIColor(named: "Yellow")
+    private let red = UIColor(named: "Red")
 
-    func fillColors() {
+    private func fillColors() {
         customColors = [pink, orange, green, blue, yellow, red]
     }
     
@@ -31,11 +30,13 @@ class MulticoloredView : UIView {
         let height = self.bounds.height
         var offsetX = 0
         if let colors = customColors {
-            for i in 0..<colors.count {
-                let part = CGRect(x: offsetX,
-                                  y: 0,
-                                  width: Int(width) / colors.count, height: Int(height))
-                colors[i].setFill()
+            for color in colors {
+                let part = CGRect(x: offsetX, y: 0,
+                                  width: Int(width) / colors.count,
+                                  height: Int(height))
+                
+                guard let colour = color else { return }
+                colour.setFill()
                 UIRectFill(part)
                 offsetX = offsetX + Int(width) / colors.count
             }

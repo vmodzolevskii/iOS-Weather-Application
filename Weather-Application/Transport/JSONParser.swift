@@ -9,6 +9,8 @@
 import Foundation
 
 class JSONParser {
+     private let json: [String: Any]
+    
     enum Tags: String {
         case weather
         case main
@@ -27,8 +29,6 @@ class JSONParser {
         case list
         case dt_txt
     }
-    
-    private let json: [String: Any]
     
     init(with jsonData: [String: Any]) {
         self.json = jsonData
@@ -60,16 +60,16 @@ class JSONParser {
     func parseForecast() -> [ForecastRecord] {
         var records = [ForecastRecord]()
         
-        guard let list = json[Tags.list.rawValue] as! [[String: Any]]? else {
+        guard let list = json[Tags.list.rawValue] as? [[String: Any]] else {
             return [ForecastRecord]()
         }
         
         for record in list {
-            guard let main = record[Tags.main.rawValue] as! [String: Any]?,
-                let temp = main[Tags.temp.rawValue] as! Double?,
-                let weather = record[Tags.weather.rawValue] as! [[String: Any]]?,
-                let state = weather[0][Tags.main.rawValue] as! String?,
-                let date = record[Tags.dt_txt.rawValue] as! String? else {
+            guard let main = record[Tags.main.rawValue] as? [String: Any],
+                let temp = main[Tags.temp.rawValue] as? Double,
+                let weather = record[Tags.weather.rawValue] as? [[String: Any]],
+                let state = weather[0][Tags.main.rawValue] as? String,
+                let date = record[Tags.dt_txt.rawValue] as? String else {
                     return [ForecastRecord]()
             }
             

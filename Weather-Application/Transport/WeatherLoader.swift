@@ -29,11 +29,13 @@ class WeatherLoader {
     private let postfix = "?&units=metric&APPID="
     private let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q="
     private let forecastWeatherURL = "https://api.openweathermap.org/data/2.5/forecast?q="
+  
     
+    // MARK: Public methods
     func completeRequest() {
         guard let url = URL(string: currentWeatherURL + requestCity +
                                             "," + requestCountry + postfix + appID) else {
-            print("invalid url")
+            debugPrint("invalid url, check location and API token")
             return
         }
         
@@ -54,7 +56,7 @@ class WeatherLoader {
                     }
                 
                 } catch {
-                    debugPrint("json parsing error")
+                    debugPrint("json parsing error", error.localizedDescription)
                 }
             }
         }
@@ -65,7 +67,7 @@ class WeatherLoader {
         dispatchPrecondition(condition: .onQueue(.main))
         guard let url = URL(string: forecastWeatherURL + requestCity
                                 + "," + requestCountry + postfix + appID) else {
-            print("invalid url")
+            debugPrint("invalid url, check location and API token")
             return
         }
         
@@ -86,7 +88,7 @@ class WeatherLoader {
                     }
                 
                 } catch {
-                    debugPrint("json parsing error")
+                    debugPrint("json parsing error", error.localizedDescription)
                 }
             }
         }

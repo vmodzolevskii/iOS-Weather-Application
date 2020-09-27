@@ -26,18 +26,20 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     var weatherDataRetrievedDelegate: WeatherDataRetrievedDelegate? = nil
     var forecastDataRetrievedDelegate: ForecastDataRetrevedDelegate? = nil
     
+    // MARK: Init
     init() {
         weatherLoader.weatherDelegate = self
         weatherLoader.forecastDelegate = self
     }
     
+    // MARK: Public methods
     func completeRequests(with city: String, with country: String,
                           originalCity: String, originalCountry: String) {
         // update city and country
         weatherLoader.requestCity = city
         weatherLoader.requestCountry = country
         weatherLoader.originalCityName = originalCity
-        weatherLoader.originalCountryName = country
+        weatherLoader.originalCountryName = originalCountry
         
         weatherLoader.completeRequest()
         weatherLoader.completeForecastRequest()

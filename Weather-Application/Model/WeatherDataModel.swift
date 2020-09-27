@@ -10,7 +10,7 @@ import Foundation
 
 class WeatherDataModel {
     // main weather info
-    var city: String
+    var city: String 
     var country: String
     var temperature: Int
     var state: String
@@ -38,10 +38,14 @@ class WeatherDataModel {
     }
 }
 
-enum DataModel: String {
+enum WeatherArguments: String {
     case city
     case country
     case temp
     case state
-    case details
+    case humidity
+    case clouds
+    case pressure
+    case speed
+    case direction
 }

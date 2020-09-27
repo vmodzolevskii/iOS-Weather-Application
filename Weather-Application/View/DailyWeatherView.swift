@@ -38,17 +38,16 @@ class DailyWeatherView: UIView {
 
     private let shareButton = UIButton()
     
-    // units like mm, pHa, etc
+    /// units like mm, pHa, etc
     private var valueUnits = ["%", " mm", " hPa", " km/h", ""]
     
-    
+    // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
         let size = UIScreen.main.bounds
         screenHeight = size.height
         screenWidth = size.width
-        
         setupViews()
     }
     
@@ -56,6 +55,7 @@ class DailyWeatherView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Setup layout, customize UI elems
     private func setTodayLabel() {
         let todayLabel = UILabel()
         todayLabel.font = UIFont.systemFont(ofSize: 22)
@@ -158,20 +158,21 @@ class DailyWeatherView: UIView {
     }
     
     private func customizeLabels() {
-        locationTitle.textColor = .orange
+        locationTitle.textColor = .blue
         locationTitle.font = .systemFont(ofSize: 26)
-        locationTitle.text = "City, Country"
+        locationTitle.text = "Undefined location"
         temperatureTitle.textColor = .orange
         temperatureTitle.font = .systemFont(ofSize: 24)
-        temperatureTitle.text = "Degree | State"
+        temperatureTitle.text = "-"
     }
     
-   private  func setupMainInfoView() {
+    private  func setupMainInfoView() {
         let currentState = UIImage(named: "Placeholder")
-        currentStateImageView = UIImageView(image: currentState)
-        mainInfoView.addSubview(currentStateImageView!)
+        self.currentStateImageView = UIImageView(image: currentState)
+        guard let stateView = currentStateImageView else { return }
+        mainInfoView.addSubview(stateView)
         
-        currentStateImageView!.snp.makeConstraints { make in
+        stateView.snp.makeConstraints { make in
             make.height.width.equalTo(screenWidth / 3)
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
@@ -183,8 +184,8 @@ class DailyWeatherView: UIView {
         mainInfoView.addSubview(temperatureTitle)
         
         locationTitle.snp.makeConstraints { make in
-            make.centerX.equalTo(currentStateImageView!)
-            make.top.equalTo(currentStateImageView!.snp.bottom).offset(10)
+            make.centerX.equalTo(stateView)
+            make.top.equalTo(stateView.snp.bottom).offset(10)
         }
         
         temperatureTitle.snp.makeConstraints { make in
@@ -194,8 +195,7 @@ class DailyWeatherView: UIView {
     }
     
     private func characteristicImageView(with name: String) -> UIImageView {
-        let image = UIImage(named: name)
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView(image: UIImage(named: name))
         return imageView
     }
     
@@ -285,51 +285,73 @@ class DailyWeatherView: UIView {
         }
     }
     
-    func updateView(parameters: [String: Any]) {
+    // MARK: Public - Update View
+    func updateView(args: [String: String]) {
         // main info updating
-        // try to define full name of country using language dictionary
-        let country = (parameters[DataModel.country.rawValue] as! String).lowercased()
-        let locationText = (parameters[DataModel.city.rawValue] as! String) + ", " + country
-        let state = parameters[DataModel.state.rawValue]
+        guard let city = args[WeatherArguments.city.rawValue],
+            let country = args[WeatherArguments.country.rawValue],
+            let temp = args[WeatherArguments.temp.rawValue],
+            let state = args[WeatherArguments.state.rawValue] else {
+                return
+        }
+            
+        let currentStateImage = updateStateImage(state: state)
+        currentStateImageView!.image = currentStateImage
         
-        var currentState: UIImage?
-        switch (state as! String) {
-        case "Clear": currentState = UIImage(named: "Clear")
-        case "Clouds": currentState = UIImage(named: "Clouds")
-        case "Rain": currentState = UIImage(named: "Rain")
-        case "Fog": currentState = UIImage(named: "Fog")
-        case "Mist": currentState = UIImage(named: "Mist")
-        default: break
+        locationTitle.text = city + ", " + country
+        let temperatureText = addCelsiusPostfix(temp: temp)
+        temperatureTitle.text = temperatureText + " | " + state
+        
+        // details info updating
+        guard let humidity = args[WeatherArguments.humidity.rawValue],
+            let clouds = args[WeatherArguments.clouds.rawValue],
+            let pressure = args[WeatherArguments.pressure.rawValue],
+            let speed = args[WeatherArguments.speed.rawValue],
+            let direction = args[WeatherArguments.direction.rawValue] else {
+                return
         }
         
-        if currentState != nil { currentStateImageView?.image = currentState }
+        guard let windDegree = Int(direction) else { return }
+        let degree = defineWindDirection(degree: windDegree)
+        let details = [humidity, clouds, pressure, speed, degree]
         
-        locationTitle.text = locationText
-        let temperatureText =  NSString(format: (parameters[DataModel.temp.rawValue] as! String) + "%@" as NSString, "\u{00B0}") as String
-        temperatureTitle.text = temperatureText + " | " + (state as! String)
-        
-        //details info updating
-        var details = parameters[DataModel.details.rawValue] as! [String]
-        let windDegreeString = details[4]
-        let windDegree = Int(windDegreeString)
-        details[4] = defineWindDirection(degree: windDegree!)
         for i in 0..<characteristicLabels.count {
             characteristicLabels[i].text = (details[i]) + (valueUnits[i])
         }
     }
     
+    private func addCelsiusPostfix(temp: String) -> String {
+        return NSString(format: temp + "%@" as NSString, "\u{00B0}") as String
+    }
+    
+    // MARK: Defining values
+    private func updateStateImage(state: String) -> UIImage? {
+        var currentState: UIImage?
+        switch (state) {
+        case "Clear": currentState = UIImage(named: "Clear")
+        case "Clouds": currentState = UIImage(named: "Clouds")
+        case "Rain": currentState = UIImage(named: "Rain")
+        case "Fog": currentState = UIImage(named: "Fog")
+        case "Mist": currentState = UIImage(named: "Mist")
+        case "Haze": currentState = UIImage(named: "Haze")
+        default: currentState = UIImage(named: "Placeholder")
+        }
+        
+        return currentState
+    }
+    
     private func defineWindDirection(degree: Int) -> String {
         var direction = ""
         switch degree {
-        case (0..<25): direction = "N"
-        case (335..<360): direction = "N"
-        case 25..<65: direction = "NE"
-        case 65..<115: direction = "E"
-        case 115..<155: direction = "SE"
-        case 155..<205: direction = "S"
-        case 205..<245: direction = "SW"
-        case 245..<295: direction = "W"
-        case 295..<335: direction = "NW"
+        case (0..<23): direction = "N"
+        case (338..<360): direction = "N"
+        case 23..<68: direction = "NE"
+        case 68..<113: direction = "E"
+        case 113..<168: direction = "SE"
+        case 168..<203: direction = "S"
+        case 203..<248: direction = "SW"
+        case 248..<294: direction = "W"
+        case 294..<338: direction = "NW"
         default: break
         }
         return direction

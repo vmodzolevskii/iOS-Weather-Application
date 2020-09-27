@@ -11,29 +11,31 @@ import SnapKit
 
 class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     private var forecastRecordsTableView: UITableView?
-    var forecastRecords: [[ForecastRecord]]?
-    let cityTitle = UILabel()
     
-    var headers = [String]()
+    let cityTitle = UILabel()
+    var forecastRecords: [[ForecastRecord]]?
     var rowsAtFirstSection = 0
+
+    private var headers = [String]()
     
     private let multicoloredLine = MulticoloredView()
     private var screenHeight: CGFloat = 0.0
     private var screenWidth: CGFloat = 0.0
+    
+    private let sectionsCount = 6
+    private let defaultRowsCount = 8
     
     private let weekdays = [2: "Monday", 3: "Tuesday", 4: "Wednesday",
                     5: "Thursday", 6: "Friday", 7: "Saturday", 1: "Sunday"]
     
     private let reuseIdentifier = "forecastCell"
     
+    
+    // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        forecastRecordsTableView = UITableView()
-        forecastRecordsTableView!.rowHeight = 100
-        forecastRecordsTableView!.translatesAutoresizingMaskIntoConstraints = false
-        forecastRecordsTableView!.dataSource = self
-        forecastRecordsTableView!.delegate = self
-        forecastRecordsTableView!.register(ForecastRecordTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        
+        setupTableView()
         defineHeaders()
         setupViews()
     }
@@ -42,12 +44,24 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Setup views
+    private func setupTableView() {
+        forecastRecordsTableView = UITableView()
+        guard let recordsTableView = forecastRecordsTableView else { return }
+        recordsTableView.rowHeight = 100
+        recordsTableView.translatesAutoresizingMaskIntoConstraints = false
+        recordsTableView.dataSource = self
+        recordsTableView.delegate = self
+        recordsTableView.register(ForecastRecordTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+    }
+    
     private func defineHeaders() {
         let myDate = Date()
         var weekday = Calendar.current.component(.weekday, from: myDate)
         
-        for _ in 0..<6 {
-            headers.append(weekdays[weekday]!)
+        for _ in 0..<sectionsCount {
+            guard let dayName = weekdays[weekday] else { return }
+            headers.append(dayName)
             weekday += 1
             if weekday == 8 {
                 weekday = 1
@@ -62,8 +76,9 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
         
         setupTitle()
         
-        self.addSubview(forecastRecordsTableView!)
-        forecastRecordsTableView!.snp.makeConstraints { make in
+        guard let tableView = forecastRecordsTableView else { return }
+        self.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(multicoloredLine.snp.bottom)
             make.bottom.equalToSuperview()
@@ -72,7 +87,7 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     private func setupTitle() {
         cityTitle.font = UIFont.systemFont(ofSize: 22)
-        cityTitle.text = "City"
+        cityTitle.text = "-"
         
         let titleView = UIView()
         titleView.addSubview(cityTitle)
@@ -101,64 +116,61 @@ class ForecastView: UIView, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return rowsAtFirstSection
-        } else if section == 5 {
-            return (8 - rowsAtFirstSection)
+        } else if section == (sectionsCount - 1) {
+            return (defaultRowsCount - rowsAtFirstSection)
         } else {
-            return 8
+            return defaultRowsCount
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int  {
-        if forecastRecords?.count != 0 {
-            return 6
-        } else {
-            return 1
-        }
+        guard let records = forecastRecords else { return 0 }
+        return records.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if forecastRecords?.count != 0 {
-            return headers[section]
-        } else {
-            return ""
-        }
+        guard forecastRecords != nil else { return "" }
+        return headers[section]
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if forecastRecords?.count != 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ForecastRecordTableViewCell
             
-            let section = forecastRecords![indexPath.section]
+            guard let records = forecastRecords else { return UITableViewCell() }
+            let section = records[indexPath.section]
             let rowData = section[indexPath.row]
             
             cell.tempLabel.text = rowData.temp
             cell.stateLabel.text = rowData.state
             cell.timeLabel.text = rowData.time
             
-            let state = rowData.state
-            var currentState: UIImage?
-            switch (state) {
-            case "Clear": currentState = UIImage(named: "Clear")
-            case "Clouds": currentState = UIImage(named: "Clouds")
-            case "Rain": currentState = UIImage(named: "Rain")
-            case "Fog": currentState = UIImage(named: "Fog")
-            case "Mist": currentState = UIImage(named: "Mist")
-            default: break
-            }
-            
-            if currentState != nil {
-                cell.stateImage = currentState
-                cell.updateStateImage()
-            }
+            let currentState = updateStateImage(state: rowData.state)
+            cell.stateImage = currentState
+            cell.updateStateImage()
             
             return cell
         }
         return UITableViewCell()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
+    // MARK: Private methods
+    private func updateStateImage(state: String) -> UIImage? {
+        var currentState: UIImage?
+        switch (state) {
+        case "Clear": currentState = UIImage(named: "Clear")
+        case "Clouds": currentState = UIImage(named: "Clouds")
+        case "Rain": currentState = UIImage(named: "Rain")
+        case "Fog": currentState = UIImage(named: "Fog")
+        case "Mist": currentState = UIImage(named: "Mist")
+        case "Haze": currentState = UIImage(named: "Haze")
+        default: currentState = UIImage(named: "Placeholder")
+        }
         
-    
+        return currentState
+    }
 }
