@@ -18,6 +18,7 @@ class ForecastRecordTableViewCell: UITableViewCell {
         imageView.image = scaledImage
         return imageView
     }()
+
     
     var timeLabel = UILabel()
     var stateLabel = UILabel()

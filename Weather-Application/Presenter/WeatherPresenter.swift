@@ -18,8 +18,8 @@ public protocol ForecastResultDelegate: class {
 
 class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     private var weatherDataModel: WeatherDataModel?
-    var forecast: [[Any]]?
-    var forecastCity: String?
+    var forecast: [ForecastRecord]?
+    var forecastCity: String = ""
     
     private let weatherLoader = WeatherLoader()
     
@@ -31,22 +31,22 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
         weatherLoader.forecastDelegate = self
     }
     
-    func completeRequests(with city: String, with country: String, originalCity: String, originalCountry: String) {
+    func completeRequests(with city: String, with country: String,
+                          originalCity: String, originalCountry: String) {
         // update city and country
         weatherLoader.requestCity = city
         weatherLoader.requestCountry = country
+        weatherLoader.originalCityName = originalCity
+        weatherLoader.originalCountryName = country
+        
         weatherLoader.completeRequest()
         weatherLoader.completeForecastRequest()
     }
     
     // MARK: Getters
-    var city: String {
-        return (weatherDataModel != nil) ? weatherDataModel!.city : ""
-    }
+    var city: String { return weatherLoader.originalCityName }
     
-    var country: String { return (weatherDataModel != nil) ?
-        weatherDataModel!.country : ""
-    }
+    var country: String { return weatherLoader.originalCountryName }
     
     var temperature: String { return (weatherDataModel != nil) ?
         String(weatherDataModel!.temperature) : ""
@@ -85,7 +85,7 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
     // MARK: ForecastResultDelegate
     func forecastDataRetrieved() {
         forecast = weatherLoader.getForecastData()
-        forecastCity = weatherLoader.getCityName()
+        forecastCity = weatherLoader.originalCityName
         forecastDataRetrievedDelegate?.updateForecast()
     }
 }

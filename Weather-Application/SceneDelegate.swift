@@ -33,52 +33,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
     }
     
-    func setBarImages(weatherVC: UIViewController, forecastVC: UIViewController) {
+    private func setBarImages(weatherVC: UIViewController, forecastVC: UIViewController) {
         let weatherItem = UITabBarItem()
         weatherItem.title = "Today"
         
-        let weatherImage = UIImage(named: "Sun")
-        let targetSize = CGSize(width: 30, height: 30)
-        let scaledImage = weatherImage!.scalePreservingAspectRatio(targetSize: targetSize)
-        weatherItem.image = scaledImage
+        guard let weatherImage = UIImage(named: "Sun") else { return }
+        weatherItem.image = weatherImage.scalePreservingAspectRatio(
+                                                        targetSize: CGSize(width: 30, height: 30))
         weatherVC.tabBarItem = weatherItem
+        
         
         let forecastItem = UITabBarItem()
         forecastItem.title = "Forecast"
-        let forecastImage = UIImage(named: "Forecast")
-        let forecastScaledImage = forecastImage!.scalePreservingAspectRatio(targetSize: targetSize)
+        guard let forecastImage = UIImage(named: "Forecast") else { return }
+        let forecastScaledImage = forecastImage.scalePreservingAspectRatio(
+                                                        targetSize: CGSize(width: 30, height: 30))
         forecastItem.image = forecastScaledImage
         forecastVC.tabBarItem = forecastItem
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
-    }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
-    }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
-    }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-
-        // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 

@@ -8,6 +8,9 @@
 
 import UIKit
 
+// This extension was taken from stakoverflow:
+// https://stackoverflow.com/questions/31314412/how-to-resize-image-in-swift
+
 extension UIImage {
     func scalePreservingAspectRatio(targetSize: CGSize) -> UIImage {
         // Determine the scale factor that preserves aspect ratio

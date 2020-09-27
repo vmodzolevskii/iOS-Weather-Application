@@ -110,7 +110,6 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Weathe
                 return
             }
             
-            // for cases when names includes more than one word
             let requestCity = city.replacingOccurrences(of: " ", with: "+")
             let requestCountry = country.replacingOccurrences(of: " ", with: "+")
             if self.isLocationDefined == false {

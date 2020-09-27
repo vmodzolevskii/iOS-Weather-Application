@@ -32,7 +32,9 @@ class MulticoloredView : UIView {
         var offsetX = 0
         if let colors = customColors {
             for i in 0..<colors.count {
-                let part = CGRect(x: offsetX, y: 0, width: Int(width) / colors.count, height: Int(height))
+                let part = CGRect(x: offsetX,
+                                  y: 0,
+                                  width: Int(width) / colors.count, height: Int(height))
                 colors[i].setFill()
                 UIRectFill(part)
                 offsetX = offsetX + Int(width) / colors.count
