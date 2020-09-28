@@ -41,7 +41,7 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
         weatherLoader.originalCityName = originalCity
         weatherLoader.originalCountryName = originalCountry
         
-        weatherLoader.completeRequest()
+        weatherLoader.completeWeatherRequest()
         weatherLoader.completeForecastRequest()
     }
     
