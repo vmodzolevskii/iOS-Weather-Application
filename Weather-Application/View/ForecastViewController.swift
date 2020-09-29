@@ -11,6 +11,7 @@ import SnapKit
 
 protocol ForecastDataRetrevedDelegate: class {
     func updateForecast()
+    func presentErrorAlert(errorAlert: UIAlertController)
 }
 
 class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
@@ -59,12 +60,16 @@ class ForecastViewController: UIViewController, ForecastDataRetrevedDelegate {
         }
     }
     
-    // MARK: Public methods
+    // MARK: ForecastDataRetrevedDelegate methods
     func updateForecast() {
         guard let presenter = weatherPresenter else { return }
         city = presenter.forecastCity
         records = presenter.forecast
         collectRecords()
+    }
+    
+    func presentErrorAlert(errorAlert: UIAlertController) {
+        self.present(errorAlert, animated: true)
     }
     
     // MARK: Private methods

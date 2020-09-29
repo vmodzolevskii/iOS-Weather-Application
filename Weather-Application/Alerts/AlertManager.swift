@@ -30,4 +30,15 @@ class AlertManager {
         
         return connectionAlert
     }
+    
+    func exceptionAlert(with alertTitle: String, alertMessage: String) -> UIAlertController {
+        let exceptionAlert = UIAlertController(
+                    title: alertTitle,
+                    message: alertMessage,
+                    preferredStyle: .alert)
+        
+        exceptionAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        return exceptionAlert
+    }
 }

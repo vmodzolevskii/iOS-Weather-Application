@@ -10,10 +10,12 @@ import Foundation
 
 public protocol WeatherResultDelegate: class {
     func weatherDataRetrieved()
+    func weatherDataError(title: String, message: String)
 }
 
 public protocol ForecastResultDelegate: class {
     func forecastDataRetrieved()
+    func forecastDataError(title: String, message: String)
 }
 
 class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
@@ -84,10 +86,22 @@ class WeatherPresenter: WeatherResultDelegate, ForecastResultDelegate {
         weatherDataRetrievedDelegate?.updateWeather()
     }
     
+    func weatherDataError(title: String, message: String) {
+        let alertManager = AlertManager()
+        let alert = alertManager.exceptionAlert(with: title, alertMessage: message)
+        weatherDataRetrievedDelegate?.presentErrorAlert(errorAlert: alert)
+    }
+    
     // MARK: ForecastResultDelegate
     func forecastDataRetrieved() {
         forecast = weatherLoader.getForecastData()
         forecastCity = weatherLoader.originalCityName
         forecastDataRetrievedDelegate?.updateForecast()
+    }
+    
+    func forecastDataError(title: String, message: String) {
+        let alertManager = AlertManager()
+        let alert = alertManager.exceptionAlert(with: title, alertMessage: message)
+        forecastDataRetrievedDelegate?.presentErrorAlert(errorAlert: alert)
     }
 }

@@ -12,6 +12,7 @@ import CoreLocation
 
 protocol WeatherDataRetrievedDelegate: class {
     func updateWeather()
+    func presentErrorAlert(errorAlert: UIAlertController)
 }
 
 class WeatherViewController: UIViewController, CLLocationManagerDelegate,
@@ -37,6 +38,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if ConnectivityVerification.isConnectedToInternet {
             guard let presnter = weatherPresenter else { return }
             presnter.weatherDataRetrievedDelegate = self
@@ -55,6 +57,12 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
         
         guard let weatherView = dailyWeatherView else { return }
         weatherView.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        let alertManager = AlertManager()
+        //self.present(alertManager.cannotDefineLocationAlert(), animated: true)
     }
     
     override func loadView() {
@@ -90,6 +98,10 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
         dailyWeatherView?.updateView(args: arguments)
         // update text representation of current weather
         collectText()
+    }
+    
+    func presentErrorAlert(errorAlert: UIAlertController) {
+        self.present(errorAlert, animated: true)
     }
     
     // MARK: Sharing data

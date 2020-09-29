@@ -8,11 +8,6 @@
 
 import Foundation
 
-enum ImageLoadingError: Error {
-    case networkFailure(Error)
-    case invalidData
-}
-
 class WeatherLoader {
     private var weatherDataModel: WeatherDataModel?
     private var forecastData = [ForecastRecord]()
@@ -21,6 +16,8 @@ class WeatherLoader {
     var originalCountryName = ""
     var requestCity = ""
     var requestCountry = ""
+    var alertTitle: String?
+    var alertMessage: String?
 
     var weatherDelegate: WeatherResultDelegate? = nil
     var forecastDelegate: ForecastResultDelegate? = nil
@@ -34,11 +31,14 @@ class WeatherLoader {
     private let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q="
     private let forecastWeatherURL = "https://api.openweathermap.org/data/2.5/forecast?q="
     
+    
     // MARK: URL building
     private func buildWeatherUrl() -> URL? {
         guard let url = URL(string: currentWeatherURL  + requestCity +
-            "," + requestCountry + postfix + appID) else {
-            debugPrint("invalid url, check location and API token")
+                                        "," + requestCountry + postfix + appID) else {
+            let alertTitle = AlertMessages.invalidURLTitle.rawValue
+            let alertMessage = AlertMessages.invalidURLMessage.rawValue
+            self.weatherDelegate?.weatherDataError(title: alertTitle, message: alertMessage)
             return nil
         }
         return url
@@ -47,7 +47,9 @@ class WeatherLoader {
     private func buildForecastUrl() -> URL? {
         guard let url = URL(string: forecastWeatherURL  + requestCity +
             "," + requestCountry + postfix + appID) else {
-            debugPrint("invalid url, check location and API token")
+            let alertTitle = AlertMessages.invalidURLTitle.rawValue
+            let alertMessage = AlertMessages.invalidURLMessage.rawValue
+            self.forecastDelegate?.forecastDataError(title: alertTitle, message: alertMessage)
             return nil
         }
         return url
@@ -65,10 +67,18 @@ class WeatherLoader {
                 if urlResponse.statusCode == 200 {
                     self.parseWeatherData(with: data)
                 } else {
-                    debugPrint("wrong server retrieving")
+                    DispatchQueue.main.async {
+                        self.weatherDelegate?.weatherDataError(
+                            title: AlertMessages.wrongServerStatusTitle.rawValue,
+                            message: AlertMessages.wrongServerStatusMessage.rawValue)
+                    }
                 }
-            case .failure(let error):
-                debugPrint("request exception", error.localizedDescription)
+            case .failure:
+                DispatchQueue.main.async {
+                    self.weatherDelegate?.weatherDataError(
+                        title: AlertMessages.serverRequestErrorTitle.rawValue,
+                        message: AlertMessages.serverRequestErrorMessage.rawValue)
+                }
             }
         }.resume()
     }
@@ -83,10 +93,18 @@ class WeatherLoader {
                 if urlResponse.statusCode == 200 {
                     self.parseForecastData(with: data)
                 } else {
-                    debugPrint("wrong server retrieving")
+                    DispatchQueue.main.async {
+                        self.forecastDelegate?.forecastDataError(
+                            title: AlertMessages.wrongServerStatusTitle.rawValue,
+                            message: AlertMessages.wrongServerStatusMessage.rawValue)
+                    }
                 }
-            case .failure(let error):
-                debugPrint("request exception: ", error.localizedDescription)
+            case .failure:
+                DispatchQueue.main.async {
+                    self.forecastDelegate?.forecastDataError(
+                        title: AlertMessages.serverRequestErrorTitle.rawValue,
+                        message: AlertMessages.serverRequestErrorMessage.rawValue)
+                }
             }
         }.resume()
     }
@@ -104,7 +122,11 @@ class WeatherLoader {
                 self.weatherDelegate?.weatherDataRetrieved()
             }
         } catch {
-            debugPrint("json invalid, check json format")
+            DispatchQueue.main.async {
+                self.weatherDelegate?.weatherDataError(
+                    title: AlertMessages.incorrectJSONFormatTitle.rawValue,
+                    message: AlertMessages.incorrectJSONFormatMessage.rawValue)
+            }
         }
     }
     
@@ -120,7 +142,11 @@ class WeatherLoader {
                 self.forecastDelegate?.forecastDataRetrieved()
             }
         } catch {
-            debugPrint("json invalid, check json format")
+            DispatchQueue.main.async {
+                self.forecastDelegate?.forecastDataError(
+                    title: AlertMessages.incorrectJSONFormatTitle.rawValue,
+                    message: AlertMessages.incorrectJSONFormatMessage.rawValue)
+            }
         }
     }
 }
