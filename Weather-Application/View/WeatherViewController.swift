@@ -24,6 +24,8 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
     private var weatherAsText: String = ""
     private var isLocationDefined = false
     
+    // 5-minute interval for timer
+    private let timeInterval = 300.0
     
     // MARK: Init
     init(presenter: WeatherPresenter) {
@@ -52,6 +54,13 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
         
         guard let weatherView = dailyWeatherView else { return }
         weatherView.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
+        
+        // update data with 5-minute interval
+        // in foreground usage
+        _ = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { timer in
+            self.isLocationDefined = false
+            self.locationManager.startUpdatingLocation()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -141,15 +150,12 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
             
             guard let presenter = self.weatherPresenter else { return }
             if self.isLocationDefined == false {
-                print("updated")
                 presenter.completeRequests(with: requestCity, with: requestCountry, originalCity: city, originalCountry: country)
                 self.isLocationDefined = true
                 self.locationManager.stopUpdatingLocation()
             }
         }
     }
-    
-    
     
     private func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
@@ -163,5 +169,10 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
         debugPrint(error.localizedDescription)
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways {
+            locationManager.startUpdatingLocation()
+        }
+    }
 }
         
