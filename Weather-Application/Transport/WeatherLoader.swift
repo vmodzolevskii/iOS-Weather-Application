@@ -36,9 +36,9 @@ class WeatherLoader {
     private func buildWeatherUrl() -> URL? {
         guard let url = URL(string: currentWeatherURL  + requestCity +
                                         "," + requestCountry + postfix + appID) else {
-            let alertTitle = AlertMessages.invalidURLTitle.rawValue
-            let alertMessage = AlertMessages.invalidURLMessage.rawValue
-            self.weatherDelegate?.weatherDataError(title: alertTitle, message: alertMessage)
+            self.weatherDelegate?.weatherDataError(
+                                        title: AlertMessages.invalidURLTitle.rawValue,
+                                        message: AlertMessages.invalidURLMessage.rawValue)
             return nil
         }
         return url
@@ -47,9 +47,9 @@ class WeatherLoader {
     private func buildForecastUrl() -> URL? {
         guard let url = URL(string: forecastWeatherURL  + requestCity +
             "," + requestCountry + postfix + appID) else {
-            let alertTitle = AlertMessages.invalidURLTitle.rawValue
-            let alertMessage = AlertMessages.invalidURLMessage.rawValue
-            self.forecastDelegate?.forecastDataError(title: alertTitle, message: alertMessage)
+            self.forecastDelegate?.forecastDataError(
+                                        title: AlertMessages.invalidURLTitle.rawValue,
+                                        message: AlertMessages.invalidURLMessage.rawValue)
             return nil
         }
         return url

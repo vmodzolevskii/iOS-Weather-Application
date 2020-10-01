@@ -50,6 +50,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
+            locationManager.allowsBackgroundLocationUpdates = true
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
@@ -57,12 +58,16 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
         
         guard let weatherView = dailyWeatherView else { return }
         weatherView.shareWeatherAction = { [weak self] in self?.shareWeatherAsText() }
+        
+        let notificationCenter = NotificationCenter.default
+            notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+            
+        
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        let alertManager = AlertManager()
-        //self.present(alertManager.cannotDefineLocationAlert(), animated: true)
+
+    @objc func appMovedToForeground() {
+        isLocationDefined = false
+        locationManager.startUpdatingLocation()
     }
     
     override func loadView() {
@@ -136,15 +141,30 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate,
             if self.isLocationDefined == false {
                 presenter.completeRequests(with: requestCity, with: requestCountry, originalCity: city, originalCountry: country)
                 self.isLocationDefined = true
+                self.locationManager.stopUpdatingLocation()
             }
         }
     }
+    
+    
     
     private func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
             completion(placemarks?.first?.locality,
                        placemarks?.first?.country,
                        error)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+//        let alertManager = AlertManager()
+//        self.present(alertManager.exceptionAlert(with: AlertMessages.locationIssueTitle.rawValue,
+//                        alertMessage: AlertMessages.locationIssueMessage.rawValue), animated: true)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways {
+            locationManager.requestLocation()
         }
     }
 }

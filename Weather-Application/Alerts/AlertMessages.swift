@@ -22,5 +22,4 @@ enum AlertMessages: String {
     
     case incorrectJSONFormatTitle = "Incorrect format of JSON"
     case incorrectJSONFormatMessage = "Check doc of API on openweathermap.org - JSON format of data may be changed"
-    
 }
